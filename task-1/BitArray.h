@@ -72,7 +72,7 @@ public:
     //Bitwise left shift, create new object
     BitArray operator<<(int n) const;
 
-    //Bitwise right shift, changes create new object
+    //Bitwise right shift, create new object
     BitArray operator>>(int n) const;
 
     //sets bit at index n to the value = 'val', throw range error if index out of range
