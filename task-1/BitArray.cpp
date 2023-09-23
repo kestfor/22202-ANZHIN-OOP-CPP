@@ -16,7 +16,7 @@ BitArray<blockType>::BitArray() {
     capacityInBites = bitsPerBlock;
     capacityInBytes = sizeof(blockType);
     array = (blockType *) malloc(capacityInBytes);
-};
+}
 
 template<typename blockType>
 BitArray<blockType>::BitArray(int numBits, blockType value) {
@@ -47,7 +47,7 @@ int BitArray<blockType>::lastUnusedByteInd() const {
 template<typename blockType>
 void BitArray<blockType>::swap(BitArray &other) {
     if (other.currSizeInBites != this->currSizeInBites) {
-        throw "arrays size mismatch";
+        throw std::runtime_error("arrays size mismatch");
     } else {
         for (int i = 0; i < other.capacityInBytes / bytesPerBlock; i++) {
             blockType tmp;
@@ -65,7 +65,6 @@ bool BitArray<blockType>::operator[](int i) const {
     } else {
         int byteNum = i / bitsPerBlock;
         int bitNum = i % 8;
-        char a = *(this->array + byteNum);
         return (*(this->array + byteNum)) & (1 << (7 - bitNum));
     }
 }
@@ -85,7 +84,7 @@ void BitArray<blockType>::resize(int numBits, bool value) {
             this->capacityInBytes = newCapacity;
             this->currSizeInBites = capacityInBites;
         } else {
-            throw "cant allocate memory";
+            throw std::runtime_error("unable to allocate memory");
         }
     } else {
         capacityInBites = numBits == 0 ? bitsPerBlock : numBits;
@@ -153,10 +152,10 @@ BitArray<blockType> &BitArray<blockType>::set() {
 template<typename blockType>
 BitArray<blockType> &BitArray<blockType>::operator&=(const BitArray &b) {
     if (b.size() != this->size()) {
-        throw "arrays size mismatch";
+        throw std::runtime_error("arrays size mismatch");
     } else {
         int lastByte = lastUnusedByteInd();
-        for (int i = 0; i < ceil((double) lastByte / bytesPerBlock); i++) {
+        for (int i = 0; i < lastByte; i++) {
             *(array + i) &= *(b.array + i);
         }
     }
@@ -166,7 +165,7 @@ BitArray<blockType> &BitArray<blockType>::operator&=(const BitArray &b) {
 template<typename blockType>
 BitArray<blockType>& BitArray<blockType>::reset(int n) {
     set(n, false);
-};
+}
 
 template<typename blockType>
 BitArray<blockType>& BitArray<blockType>::reset() {
@@ -175,7 +174,7 @@ BitArray<blockType>& BitArray<blockType>::reset() {
         *(array + i) &= 0;
     }
     return *this;
-};
+}
 
 template<typename blockType>
 bool BitArray<blockType>::any() const {
@@ -227,7 +226,7 @@ int BitArray<blockType>::count() const {
 template<typename blockType>
 bool BitArray<blockType>::empty() const {
     return size() == 0;
-};
+}
 
 template<typename blockType>
 std::string BitArray<blockType>::to_string() const {
@@ -238,12 +237,12 @@ std::string BitArray<blockType>::to_string() const {
         res.push_back(alpha);
     }
     return res;
-};
+}
 
 template<typename blockType>
 BitArray<blockType> &BitArray<blockType>::operator|=(const BitArray &b) {
     if (b.size() != this->size()) {
-        throw "arrays size mismatch";
+        throw std::runtime_error("arrays size mismatch");
     } else {
         int lastByte = lastUnusedByteInd();
         for (int i = 0; i < lastByte; i++) {
@@ -256,7 +255,7 @@ BitArray<blockType> &BitArray<blockType>::operator|=(const BitArray &b) {
 template<typename blockType>
 BitArray<blockType> &BitArray<blockType>::operator^=(const BitArray &b) {
     if (b.size() != this->size()) {
-        throw "arrays size mismatch";
+        throw std::runtime_error("arrays size mismatch");
     } else {
         int lastByte = lastUnusedByteInd();
         for (int i = 0; i < lastByte; i++) {
@@ -300,13 +299,15 @@ BitArray<blockType> &BitArray<blockType>::operator>>=(int n) {
 template<typename blockType>
 BitArray<blockType> BitArray<blockType>::operator<<(int n) const {
     auto res = BitArray<blockType>(*this);
-    return res <<= n;
+    res <<= n;
+    return res;
 }
 
 template<typename blockType>
 BitArray<blockType> BitArray<blockType>::operator>>(int n) const {
     auto res = BitArray<blockType>(*this);
-    return res >>= n;
+    res >>= n;
+    return res;
 }
 
 template<typename blockType>
@@ -320,41 +321,30 @@ bool operator==(const BitArray<blockType> & a, const BitArray<blockType> & b) {
         }
     }
     return true;
-};
+}
 
 template<typename blockType>
 bool operator!=(const BitArray<blockType> & a, const BitArray<blockType> & b) {
     return ! (a == b);
-};
+}
 
 template<typename blockType>
 BitArray<blockType> operator&(const BitArray<blockType>& b1, const BitArray<blockType>& b2) {
     auto res = BitArray<blockType>(b1);
     res &= b2;
     return res;
-};
+}
 
 template<typename blockType>
 BitArray<blockType> operator|(const BitArray<blockType>& b1, const BitArray<blockType>& b2) {
     auto res = BitArray<blockType>(b1);
     res |= b2;
     return res;
-};
+}
 
 template<typename blockType>
 BitArray<blockType> operator^(const BitArray<blockType>& b1, const BitArray<blockType>& b2) {
     auto res = BitArray<blockType>(b1);
     res ^= b2;
     return res;
-};
-
-template<typename blockType>
-std::ostream& operator<<(std::ostream& os, const BitArray<blockType>& b)
-{
-    std::string res;
-    for (int i = 0; i < b.size(); i++) {
-        res.push_back(b[i] ? '1' : '0');
-    }
-    os << res;
-    return os;
 }

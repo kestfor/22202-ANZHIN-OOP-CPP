@@ -85,3 +85,13 @@ TEST(BitArray, EmptyReset) {
     a.reset();
     EXPECT_EQ(a.count(), 0);
 }
+
+TEST(BitArray, Exceptions) {
+    BitArray<char> a(10);
+    BitArray<char> b(100);
+    EXPECT_ANY_THROW(b & a);
+    EXPECT_ANY_THROW(b | a);
+    EXPECT_ANY_THROW(b ^ a);
+    EXPECT_ANY_THROW(a.swap(b));
+    EXPECT_ANY_THROW(b[101]);
+}

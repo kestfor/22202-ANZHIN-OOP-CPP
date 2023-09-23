@@ -82,9 +82,6 @@ public:
     bool empty() const;
 
     std::string to_string() const;
-
-    template<class Type>
-    friend std::ostream& operator<<(std::ostream& os, const BitArray<Type>& b);
 };
 
 #endif /* BITARRAY_H */
