@@ -6,7 +6,6 @@
 #include "FileReader.h"
 #include "FileWriter.h"
 #include "Parser.h"
-#include <iostream>
 #include "Statistics.h"
 using namespace std;
 
