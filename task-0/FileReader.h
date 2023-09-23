@@ -15,6 +15,10 @@ public:
         this->file = new ifstream();
     };
 
+    bool isOpen() {
+        return this->file->is_open();
+    }
+
     ~FileReader() {
         delete file;
     };

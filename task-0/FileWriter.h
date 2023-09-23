@@ -22,6 +22,10 @@ public:
         this->file->open(fileName);
     }
 
+    bool isOpen() {
+        return this->file->is_open();
+    }
+
     void close() {
         this->file->close();
     }

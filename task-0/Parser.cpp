@@ -9,7 +9,7 @@ list<string> Parser::split(string &line) {
     size_t startInd = 0;
     size_t endInd = line.size() - 1;
     while (startInd <= endInd) {
-        while (startInd < endInd && isDelimiter(line[startInd])) {
+        while (startInd <= endInd && isDelimiter(line[startInd])) {
             startInd++;
         }
         for (size_t i = startInd; i <= endInd; i++) {

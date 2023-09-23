@@ -6,6 +6,8 @@
 #include "FileReader.h"
 #include "FileWriter.h"
 #include "Parser.h"
+#include <iostream>
+#include "Statistics.h"
 using namespace std;
 
 bool cmp(pair<string, int> &first, pair<string, int> &second) {
@@ -28,26 +30,28 @@ int main(int argc, char *argv[]) {
     }
     string nameFrom = string(argv[1]);
     string nameTo = string(argv[2]);
-    map<string, int> container;
     size_t totalAmount = 0;
+    Statistics stat;
     FileReader reader(nameFrom);
     reader.open();
+    if (!reader.isOpen()) {
+        return EXIT_FAILURE;
+    }
     while (reader.hasNext()) {
         string line = reader.next();
         auto words = Parser::split(line);
         totalAmount += words.size();
         for (const auto& word : words) {
-            if (container.contains(word)) {
-                container[word]++;
-            } else {
-                container[word] = 1;
-            }
+            stat.add(word);
         }
     }
     reader.close();
-    auto sorted = sortMapByKey(container);
+    auto sorted = sortMapByKey(stat.getData());
     FileWriter writer(nameTo);
     writer.open();
+    if (!writer.isOpen()) {
+        return EXIT_FAILURE;
+    }
     for (const auto &item : sorted) {
         string line = item.first + "\t" + to_string((long double) item.second / totalAmount);
         writer.writeLine(line);
