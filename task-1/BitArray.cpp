@@ -49,11 +49,12 @@ void BitArray<blockType>::swap(BitArray &other) {
     if (other.currSizeInBites != this->currSizeInBites) {
         throw std::runtime_error("arrays size mismatch");
     } else {
-        for (int i = 0; i < other.capacityInBytes / bytesPerBlock; i++) {
-            blockType tmp;
-            tmp = this->array[i];
-            this->array[i] = other.array[i];
-            other.array[i] = tmp;
+        int lastByte = lastUnusedByteInd();
+        for (int i = 0; i < lastByte; i++) {
+            char tmp;
+            tmp = *(this->array + i);
+            *(this->array + i) = *(other.array + i);
+            *(other.array + i) = tmp;
         }
     }
 }

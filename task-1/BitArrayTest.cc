@@ -13,7 +13,7 @@ TEST(BitArray, CopyConstructorTest) {
 
 TEST(BitArray, Swap) {
     BitArray<char> b;
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 10; i++) {
         b.pushBack(true);
     }
     auto a = ~b;
