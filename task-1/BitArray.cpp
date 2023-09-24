@@ -46,6 +46,9 @@ int BitArray<blockType>::lastUnusedByteInd() const {
 
 template<typename blockType>
 void BitArray<blockType>::reallocateArray(int numBits) {
+    if (numBits < 0) {
+        throw std::range_error("amount of bits must be positive value");
+    }
     int newCapacity = ceil(ceil((double) numBits / 8) / bytesPerBlock) * bytesPerBlock;
     newCapacity = std::max(sizeof(blockType), size_t(newCapacity));
     if (newCapacity != capacityInBytes) {

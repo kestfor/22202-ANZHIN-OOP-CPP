@@ -28,7 +28,7 @@ private:
     //returns index of last unused byte
     [[nodiscard]] int lastUnusedByteInd() const;
 
-    //reallocates array memory, changes current size, capacity
+    //reallocates array memory, changes current size, capacity, throw range error if numbits < 0
     void reallocateArray(int numBits);
 public:
 
@@ -50,7 +50,7 @@ public:
     //copies other's array bits, resizes array if needed
     BitArray& operator=(const BitArray& other);
 
-    //changes size of array to numbits, if new size bigger, then new bits initialises as 'value'
+    //changes size of array to numbits, if new size bigger, then new bits initialises as 'value', throw range error if numbits < 0
     void resize(int numBits, bool value = false);
 
     //changes size of array to 0

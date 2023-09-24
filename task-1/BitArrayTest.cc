@@ -94,6 +94,7 @@ TEST(BitArray, Exceptions) {
     EXPECT_ANY_THROW(b ^ a);
     EXPECT_ANY_THROW(a.swap(b));
     EXPECT_ANY_THROW(b[101]);
+    EXPECT_ANY_THROW(b.resize(-10));
 }
 
 TEST(BitArray, PushTest) {
