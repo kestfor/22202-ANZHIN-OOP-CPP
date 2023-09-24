@@ -21,8 +21,8 @@ BitArray<blockType>::BitArray() {
 template<typename blockType>
 BitArray<blockType>::BitArray(int numBits, blockType value) {
     currSizeInBites = numBits;
-    capacityInBites = numBits;
     capacityInBytes = std::max(size_t(ceil((double) numBits / 8)), sizeof(blockType));
+    capacityInBites = capacityInBytes * 8;
     array = (blockType *) malloc(capacityInBytes);
     array[0] = value;
 }
