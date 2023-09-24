@@ -7,6 +7,8 @@ template<typename blockType>
 class BitArray {
 private:
 
+    typedef unsigned char byte;
+
     //data size
     static const int bytesPerBlock = sizeof(blockType);
     static const int bitsPerBlock =  bytesPerBlock * 8;
@@ -25,6 +27,9 @@ private:
 
     //returns index of last unused byte
     [[nodiscard]] int lastUnusedByteInd() const;
+
+    //reallocates array memory, changes current size, capacity
+    void reallocateArray(int numBits);
 public:
 
     //creates empty array reserving memory with size of one 'blockType'

@@ -3,28 +3,28 @@
 #include "BitArray.cpp"
 
 TEST(BitArray, CopyConstructorTest) {
-    auto b = BitArray<char>();
-    for (int i = 0; i < 10; i++) {
+    auto b = BitArray<size_t>();
+    for (int i = 0; i < 200; i++) {
         b.pushBack(true);
     }
-    auto a = BitArray<char>(b);
+    auto a = BitArray<size_t>(b);
     EXPECT_TRUE(a == b);
 }
 
 TEST(BitArray, Swap) {
-    BitArray<char> b;
+    BitArray<long> b;
     for (int i = 0; i < 10; i++) {
         b.pushBack(true);
     }
     auto a = ~b;
-    BitArray<char> old_b;
+    BitArray<long> old_b;
     old_b = b;
     a.swap(b);
     EXPECT_TRUE(~b == old_b);
 }
 
 TEST(BitArray, AnyNone) {
-    auto b = BitArray<char>();
+    auto b = BitArray<long>();
     for (int i = 0; i < 10; i++) {
         b.pushBack(false);
     }
@@ -34,7 +34,7 @@ TEST(BitArray, AnyNone) {
 }
 
 TEST(BitArray, ResizeClear) {
-    auto b = BitArray<char>(100);
+    auto b = BitArray<double>(100);
     b.resize(20);
     EXPECT_EQ(b.size(), 20);
     b.clear();
@@ -66,7 +66,7 @@ TEST(BitArray, BitWiseToString) {
 }
 
 TEST(BitArray, Count) {
-    auto a = BitArray<char>(100);
+    auto a = BitArray<long long>(100);
     a.reset();
     for (int i = 0; i < a.size(); i++) {
         if (i % 10 == 0) {
@@ -94,4 +94,22 @@ TEST(BitArray, Exceptions) {
     EXPECT_ANY_THROW(b ^ a);
     EXPECT_ANY_THROW(a.swap(b));
     EXPECT_ANY_THROW(b[101]);
+}
+
+TEST(BitArray, PushTest) {
+    BitArray<long long> b;
+    for (int i = 0; i < 10000; i++) {
+        b.pushBack(true);
+    }
+    EXPECT_EQ(b.count(), 10000);
+    b.resize(0);
+    for (int i = 0; i < 100; i++) {
+        b.pushBack(true);
+    }
+    EXPECT_EQ(b.count(), 100);
+    b.clear();
+    for (int i = 0; i < 10; i++) {
+        b.pushBack(false);
+    }
+    EXPECT_EQ(b.count(), 0);
 }
