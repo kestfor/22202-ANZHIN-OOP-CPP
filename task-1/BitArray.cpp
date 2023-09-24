@@ -230,7 +230,7 @@ bool BitArray<blockType>::empty() const {
 }
 
 template<typename blockType>
-std::string BitArray<blockType>::to_string() const {
+std::string BitArray<blockType>::toString() const {
     std::string res;
     int lastByte = lastUnusedByteInd();
     for (int i = 0; i < lastByte; i++) {

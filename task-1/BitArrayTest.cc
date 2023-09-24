@@ -50,19 +50,19 @@ TEST(BitArray, BitWiseToString) {
     auto resAnd = a & b;
     EXPECT_TRUE(resAnd.none());
     auto resOr = a | b;
-    EXPECT_TRUE(resOr.to_string()[0] == char(255));
+    EXPECT_TRUE(resOr.toString()[0] == char(255));
     auto resXor = a ^ b;
     EXPECT_TRUE(resOr == resXor);
     auto resNot = ~b;
     EXPECT_TRUE(a == resNot);
     a.reset();
     a.set(0, true);
-    EXPECT_TRUE((a >> 2).to_string()[0] == char(32));
+    EXPECT_TRUE((a >> 2).toString()[0] == char(32));
     a >>= 2;
-    EXPECT_TRUE((a << 2).to_string()[0] == char(128));
+    EXPECT_TRUE((a << 2).toString()[0] == char(128));
     a <<= 2;
     a >>= 0;
-    EXPECT_TRUE(a.to_string()[0] == char(128));
+    EXPECT_TRUE(a.toString()[0] == char(128));
 }
 
 TEST(BitArray, Count) {

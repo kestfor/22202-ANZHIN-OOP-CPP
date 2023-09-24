@@ -109,7 +109,7 @@ public:
     bool empty() const;
 
     //turn every byte to char, returns string of this chars
-    std::string to_string() const;
+    std::string toString() const;
 };
 
 
