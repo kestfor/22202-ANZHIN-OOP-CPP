@@ -84,7 +84,7 @@ public:
     BitArray& set(int n, bool val = true);
 
     //sets all bits to the 1
-    BitArray<blockType>& set();
+    BitArray& set();
 
     //sets bit at index n to the value = 0, throw range error if index out of range
     BitArray& reset(int n);
@@ -116,23 +116,6 @@ public:
     //turn every byte to char, returns string of this chars
     std::string toString() const;
 };
-
-
-//Bitwise left shift, returns new object
-template<typename blockType>
-BitArray<blockType> BitArray<blockType>::operator<<(int n) const {
-    auto res = BitArray<blockType>(*this);
-    res <<= n;
-    return res;
-}
-
-//Bitwise right shift, returns new object
-template<typename blockType>
-BitArray<blockType> BitArray<blockType>::operator>>(int n) const {
-    auto res = BitArray<blockType>(*this);
-    res >>= n;
-    return res;
-}
 
 
 //returns true if arrays are equal

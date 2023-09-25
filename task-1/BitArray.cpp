@@ -302,3 +302,17 @@ BitArray<blockType> &BitArray<blockType>::operator>>=(int n) {
     }
     return *this;
 }
+
+template<typename blockType>
+BitArray<blockType> BitArray<blockType>::operator<<(int n) const {
+    auto res = BitArray<blockType>(*this);
+    res <<= n;
+    return res;
+}
+
+template<typename blockType>
+BitArray<blockType> BitArray<blockType>::operator>>(int n) const {
+    auto res = BitArray<blockType>(*this);
+    res >>= n;
+    return res;
+}
