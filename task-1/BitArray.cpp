@@ -71,8 +71,8 @@ void BitArray<blockType>::swap(BitArray &other) {
     } else {
         int lastByte = lastUnusedByteInd();
         for (int i = 0; i < lastByte; i++) {
-            char tmp;
-            tmp = *(this->array + i);
+            byte tmp;
+            tmp = *((byte *) this->array + i);
             *((byte *) this->array + i) = *((byte *) other.array + i);
             *((byte *) other.array + i) = tmp;
         }
