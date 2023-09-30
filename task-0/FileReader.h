@@ -9,6 +9,13 @@ class FileReader {
 private:
     string fileName;
     ifstream *file;
+
+    void checkError() {
+        if (!isOpen()) {
+            throw "the file is not open";
+        }
+    }
+
 public:
     FileReader(const string &fileName) {
         this->fileName = fileName;
@@ -20,6 +27,9 @@ public:
     }
 
     ~FileReader() {
+        if (isOpen()) {
+            file->close();
+        }
         delete file;
     };
 
@@ -28,20 +38,24 @@ public:
     }
 
     string next() {
+        checkError();
         string line;
         getline(*file, line);
         return line;
     };
 
     bool hasNext() {
+        checkError();
         return !file->eof();
     }
 
     void close() {
+        checkError();
         file->close();
     }
 
     void reset() {
+        checkError();
         file->seekg(0);
     }
 };

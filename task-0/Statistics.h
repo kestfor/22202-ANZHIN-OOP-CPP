@@ -2,12 +2,21 @@
 #define CPP_STATISTICS_H
 #include <map>
 #include <string>
-using std::map;
-using std::string;
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <utility>
+using namespace std;
 
 class Statistics {
 private:
     map<string, int> container;
+
+    static bool cmp(pair<string, int> &first, pair<string, int> &second) {
+        return first.second > second.second || (first.second == second.second && first.first < second.first);
+    }
+
+    vector<pair<string, int>> sortMapByKey();
 
 public:
     void add(const string &word) {
@@ -20,6 +29,10 @@ public:
 
     map<string, int> &getData() {
         return container;
+    }
+
+    vector<pair<string, int>> getSortedData() {
+        return this->sortMapByKey();
     }
 };
 
