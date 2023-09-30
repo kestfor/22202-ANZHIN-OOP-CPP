@@ -114,3 +114,9 @@ TEST(BitArray, PushTest) {
     }
     EXPECT_EQ(b.count(), 0);
 }
+
+TEST(BitArray, Assignment) {
+    BitArray<char> b(8);
+    b[0] = true;
+    EXPECT_EQ(b.count(), 1);
+}

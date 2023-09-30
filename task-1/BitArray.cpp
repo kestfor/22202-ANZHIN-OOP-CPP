@@ -6,7 +6,7 @@
 template<typename blockType>
 BitArray<blockType>::~BitArray() {
     if (capacityInBytes != 0) {
-        delete array;
+        delete[] array;
     }
 }
 
@@ -80,17 +80,6 @@ void BitArray<blockType>::swap(BitArray &other) {
 }
 
 template<typename blockType>
-bool BitArray<blockType>::operator[](int i) const {
-    if (i < 0 || i >= currSizeInBites || currSizeInBites == 0) {
-        throw std::out_of_range("invalid index");
-    } else {
-        int byteNum = i / 8;
-        int bitNum = i % 8;
-        return (*((byte *) this->array + byteNum)) & (1 << (7 - bitNum));
-    }
-}
-
-template<typename blockType>
 void BitArray<blockType>::resize(int numBits, bool value) {
     int oldCapacityInBites = this->capacityInBites;
     reallocateArray(numBits);
@@ -110,7 +99,6 @@ BitArray<blockType> &BitArray<blockType>::set(int n, bool val) {
     }
     return *this;
 }
-
 
 template<typename blockType>
 void BitArray<blockType>::pushBack(bool bit) {
@@ -315,4 +303,48 @@ BitArray<blockType> BitArray<blockType>::operator>>(int n) const {
     auto res = BitArray<blockType>(*this);
     res >>= n;
     return res;
+}
+
+template<typename blockType>
+BitArray<blockType>::Bit BitArray<blockType>::operator[](int i) const {
+    if (i < 0 || i >= currSizeInBites || currSizeInBites == 0) {
+        throw std::out_of_range("invalid index");
+    }
+    return Bit(this->array, i);
+}
+
+template<typename blockType>
+BitArray<blockType>::Bit::Bit(blockType *array, int ind) {
+    this->array = array;
+    index = ind;
+    value = (*((byte *) this->array + (ind / 8))) & (1 << (7 - (ind % 8)));
+}
+
+template<typename blockType>
+BitArray<blockType>::Bit::Bit(const BitArray::Bit &b) {
+    array = b.array;
+    index = b.index;
+    value = b.value;
+}
+
+template<typename blockType>
+BitArray<blockType>::Bit &BitArray<blockType>::Bit::operator=(bool val) {
+    int byteNum = index / 8;
+    int bitNum = index % 8;
+    if (val) {
+        *((byte *) array + byteNum) |= (1 << (7 - bitNum));
+    } else {
+        *((byte *) array + byteNum) &= ~(1 << (7 - bitNum));
+    }
+    return *this;
+}
+
+template<typename blockType>
+BitArray<blockType>::Bit &BitArray<blockType>::Bit::operator=(const BitArray::Bit &other) {
+    if (other == this) {
+        return  *this;
+    }
+    this->value = other.value;
+    this->index = other.index;
+    return *this;
 }

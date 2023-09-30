@@ -30,6 +30,29 @@ private:
 
     //reallocates array memory, changes current size, capacity, throw range error if numbits < 0
     void reallocateArray(int numBits);
+
+    //proxy class for item assignment
+    class Bit {
+    private:
+        blockType *array;
+        int index;
+
+    public:
+        bool value;
+
+        Bit(blockType *array, int ind);
+
+        Bit(const Bit &b);
+
+        Bit &operator=(bool val);
+
+        Bit &operator=(const Bit &other);
+
+        operator bool() {
+            return this->value;
+        }
+    };
+
 public:
 
     //creates empty array reserving memory with size of one 'blockType'
@@ -104,8 +127,8 @@ public:
     //returns amount of nonzero bits
     int count() const;
 
-    //returns value of bit at 'i' index, throw range error if index out of range
-    bool operator[](int i) const;
+    //returns/sets value of bit at 'i' index, throw range error if index out of range
+    Bit operator[](int i) const;
 
     //returns amount of bits, used in array
     int size() const;
@@ -134,7 +157,7 @@ bool operator==(const BitArray<blockType> & a, const BitArray<blockType> & b) {
 
 template<typename blockType>
 bool operator!=(const BitArray<blockType> & a, const BitArray<blockType> & b) {
-    return ! (a == b);
+    return !(a == b);
 }
 
 //Bitwise AND, returns new object
@@ -153,12 +176,36 @@ BitArray<blockType> operator|(const BitArray<blockType>& b1, const BitArray<bloc
     return res;
 }
 
+
 //Bitwise XOR, returns new object
 template<typename blockType>
 BitArray<blockType> operator^(const BitArray<blockType>& b1, const BitArray<blockType>& b2) {
     auto res = BitArray<blockType>(b1);
     res ^= b2;
     return res;
+}
+
+/**
+ * @tparam blockType
+ * @param first_bit
+ * @param second_bit
+ * @return true if objects represents equal bits
+ */
+template<typename blockType>
+bool operator==(const typename BitArray<blockType>::Bit &a, const typename BitArray<blockType>::Bit &b) {
+    return a.value == b.value;
+}
+
+/**
+ *
+ * @tparam blockType
+ * @param first_bit
+ * @param second_bit
+ * @return true if objects represents not equal bits
+ */
+template<typename blockType>
+bool operator!=(const typename BitArray<blockType>::Bit &a, const typename BitArray<blockType>::Bit &b) {
+    return !(a.value == b.value);
 }
 
 #endif /* BITARRAY_H */
