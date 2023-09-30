@@ -25,10 +25,15 @@ private:
     //used amount of bits
     int currSizeInBites;
 
-    //returns index of last unused byte
+    /**
+     * @return index of last unused byte
+     */
     [[nodiscard]] int lastUnusedByteInd() const;
 
-    //reallocates array memory, changes current size, capacity, throw range error if numbits < 0
+    /**
+     * reallocates array memory, changes current size, capacity, throw range error if numbits < 0
+     * @param numBits
+     */
     void reallocateArray(int numBits);
 
     //proxy class for item assignment
