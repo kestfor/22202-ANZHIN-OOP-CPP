@@ -59,9 +59,9 @@ void BitArray<blockType>::reallocateArray(int numBits) {
             throw std::runtime_error("unable to allocate memory");
         }
     }
-    this->capacityInBites = numBits == 0 ? bitsPerBlock : numBits;
+    this->capacityInBites = numBits == 0 ? bitsPerBlock : newCapacity * 8;
     this->capacityInBytes = newCapacity;
-    this->currSizeInBites = numBits == 0 ? numBits : capacityInBites;
+    this->currSizeInBites = numBits;
 }
 
 template<typename blockType>
@@ -81,9 +81,9 @@ void BitArray<blockType>::swap(BitArray &other) {
 
 template<typename blockType>
 void BitArray<blockType>::resize(int numBits, bool value) {
-    int oldCapacityInBites = this->capacityInBites;
+    int oldSize = this->currSizeInBites;
     reallocateArray(numBits);
-    for (int i = oldCapacityInBites; i < numBits; i++) {
+    for (int i = oldSize; i < numBits; i++) {
         set(i, value);
     }
 }
