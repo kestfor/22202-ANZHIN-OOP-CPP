@@ -39,7 +39,9 @@ private:
     //proxy class for item assignment
     class Bit {
     private:
+         //original array of BitArray
         blockType *array;
+
         int index;
 
     public:
@@ -66,7 +68,11 @@ public:
     //clears allocated memory
     ~BitArray();
 
-    //creates array with size of numbits, first size of 'blockType' bytes initialises as 'value'
+    /**
+     * creates array with size of numbits, first size of 'blockType' bytes initialises as 'value'
+     * @param numBits
+     * @param value
+     */
     explicit BitArray(int numBits, blockType value = 0);
 
     //copy constructor
@@ -75,10 +81,25 @@ public:
     //swaps two arrays, throw runtime error if sizes are not equal
     void swap(BitArray &other);
 
+    //operator[] analogue, works 2 times faster due to work without Bit class, it is preferable to use when you need to read a bit
+    bool get(int ind) const {
+        if (ind < 0 || ind >= currSizeInBites || currSizeInBites == 0) {
+            throw std::out_of_range("invalid index");
+        } else {
+            int byteNum = ind / 8;
+            int bitNum = ind % 8;
+            return (*((byte *) this->array + byteNum)) & (1 << (7 - bitNum));
+        }
+    }
+
     //copies other's array bits, resizes array if needed
     BitArray& operator=(const BitArray& other);
 
-    //changes size of array to numbits, if new size bigger, then new bits initialises as 'value', throw range error if numbits < 0
+    /**
+     * changes size of array to numbits, if new size bigger, then new bits initialises as 'value', throw range error if numbits < 0
+     * @param numBits
+     * @param value
+     */
     void resize(int numBits, bool value = false);
 
     //changes size of array to 0
@@ -108,7 +129,12 @@ public:
     //Bitwise right shift, create new object
     BitArray operator>>(int n) const;
 
-    //sets bit at index n to the value = 'val', throw range error if index out of range
+    /**
+     * sets bit at index n to the value = 'val', throw range error if index out of range
+     * @param n
+     * @param val
+     * @return reference to BitArray
+     */
     BitArray& set(int n, bool val = true);
 
     //sets all bits to the 1
@@ -153,7 +179,7 @@ bool operator==(const BitArray<blockType> & a, const BitArray<blockType> & b) {
         return false;
     }
     for (int i = 0; i < a.size(); i++) {
-        if (a[i] != b[i]) {
+        if (a.get(i) != b.get(i)) {
             return false;
         }
     }

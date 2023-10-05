@@ -124,7 +124,7 @@ BitArray<blockType> &BitArray<blockType>::operator=(const BitArray &other) {
     }
     this->clear();
     for (int i = 0; i < other.currSizeInBites; i++) {
-        this->pushBack(other[i]);
+        this->pushBack(other.get(i));
     }
     return *this;
 }
@@ -181,7 +181,7 @@ bool BitArray<blockType>::any() const {
     }
     if (lastByte > 0) {
         for (int i = (lastByte - 1) * 8; i < currSizeInBites; i++) {
-            if ((*this)[i] != false) {
+            if ((*this).get(i) != false) {
                 return true;
             }
         }
@@ -199,7 +199,7 @@ bool BitArray<blockType>::none() const {
     }
     if (lastByte > 0) {
         for (int i = (lastByte - 1) * 8; i < currSizeInBites; i++) {
-            if ((*this)[i] != false) {
+            if ((*this).get(i) != false) {
                 return false;
             }
         }
@@ -211,7 +211,7 @@ template<typename blockType>
 int BitArray<blockType>::count() const {
     int res = 0;
     for (int i = 0; i < currSizeInBites; i++) {
-        if ((*this)[i]) {
+        if ((*this).get(i)) {
             res++;
         }
     }
@@ -264,7 +264,7 @@ template<typename blockType>
 BitArray<blockType> BitArray<blockType>::operator~() const {
     auto res = BitArray<blockType>(*this);
     for (int i = 0; i < currSizeInBites; i++) {
-        res.set(i, !(*this)[i]);
+        res.set(i, !(*this).get(i));
     }
     return res;
 }
@@ -275,7 +275,7 @@ BitArray<blockType> &BitArray<blockType>::operator<<=(int n) {
         return *this;
     }
     for (int i = 0; i < currSizeInBites; i++) {
-        set(i, (i + n >= currSizeInBites ? 0 : (*this)[i + n]));
+        set(i, (i + n >= currSizeInBites ? 0 : (*this).get(i + n)));
     }
     return *this;
 }
@@ -286,7 +286,7 @@ BitArray<blockType> &BitArray<blockType>::operator>>=(int n) {
         return *this;
     }
     for (int i = currSizeInBites - 1; i >= 0; i--) {
-        set(i, (i - n < 0 ? 0 : (*this)[i - n]));
+        set(i, (i - n < 0 ? 0 : (*this).get(i - n)));
     }
     return *this;
 }
