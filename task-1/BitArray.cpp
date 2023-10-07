@@ -90,6 +90,11 @@ void BitArray<blockType>::resize(int numBits, bool value) {
 
 template<typename blockType>
 BitArray<blockType> &BitArray<blockType>::set(int n, bool val) {
+    if (n >= capacityInBites) {
+        resize(n + 1);
+    } else if (n < 0) {
+        throw std::out_of_range("invalid index");
+    }
     int byteNum = n / 8;
     int bitNum = n % 8;
     if (val) {
@@ -306,36 +311,32 @@ BitArray<blockType> BitArray<blockType>::operator>>(int n) const {
 }
 
 template<typename blockType>
-BitArray<blockType>::Bit BitArray<blockType>::operator[](int i) const {
-    if (i < 0 || i >= currSizeInBites || currSizeInBites == 0) {
+BitArray<blockType>::Bit BitArray<blockType>::operator[](int i) {
+    if (i >= currSizeInBites) {
+        resize(i + 1);
+    } else if (i < 0) {
         throw std::out_of_range("invalid index");
     }
-    return Bit(this->array, i);
+    return Bit(this, i);
 }
 
 template<typename blockType>
-BitArray<blockType>::Bit::Bit(blockType *array, int ind) {
-    this->array = array;
+BitArray<blockType>::Bit::Bit(BitArray<blockType> *bitArray, int ind) {
+    this->bitArray = bitArray;
     index = ind;
-    value = (*((byte *) this->array + (ind / 8))) & (1 << (7 - (ind % 8)));
+    value = bitArray->get(ind);
 }
 
 template<typename blockType>
 BitArray<blockType>::Bit::Bit(const BitArray::Bit &b) {
-    array = b.array;
+    bitArray = b.bitArray;
     index = b.index;
     value = b.value;
 }
 
 template<typename blockType>
 BitArray<blockType>::Bit &BitArray<blockType>::Bit::operator=(bool val) {
-    int byteNum = index / 8;
-    int bitNum = index % 8;
-    if (val) {
-        *((byte *) array + byteNum) |= (1 << (7 - bitNum));
-    } else {
-        *((byte *) array + byteNum) &= ~(1 << (7 - bitNum));
-    }
+    bitArray->set(index, val);
     return *this;
 }
 

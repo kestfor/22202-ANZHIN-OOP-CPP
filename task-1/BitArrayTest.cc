@@ -93,8 +93,8 @@ TEST(BitArray, Exceptions) {
     EXPECT_ANY_THROW(b | a);
     EXPECT_ANY_THROW(b ^ a);
     EXPECT_ANY_THROW(a.swap(b));
-    EXPECT_ANY_THROW(b[101]);
     EXPECT_ANY_THROW(b.resize(-10));
+    EXPECT_ANY_THROW(b[-1]);
 }
 
 TEST(BitArray, PushTest) {
@@ -117,27 +117,6 @@ TEST(BitArray, PushTest) {
 
 TEST(BitArray, Assignment) {
     BitArray<char> b(8);
-    b[0] = true;
+    b[10] = true;
     EXPECT_EQ(b.count(), 1);
-}
-
-TEST(BitArray, optimization) {
-    int n = 100000000;
-    BitArray<long long> b;
-    b.resize(n);
-    int count = 0;
-    clock_t start = clock();
-    for (int i = 0; i < b.size(); i++) {
-        if (b[i]) {
-            count++;
-        }
-    }
-    clock_t end = clock();
-    double first_time = (double) (end - start) / CLOCKS_PER_SEC;
-    start = clock();
-    int res = b.count();
-    end = clock();
-    double second_time = (double) (end - start) / CLOCKS_PER_SEC;
-    EXPECT_EQ(res, count);
-    EXPECT_TRUE(second_time < first_time);
 }

@@ -40,14 +40,14 @@ private:
     class Bit {
     private:
          //original array of BitArray
-        blockType *array;
+        BitArray<blockType> *bitArray;
 
         int index;
 
     public:
         bool value;
 
-        Bit(blockType *array, int ind);
+        Bit(BitArray<blockType> *bitArray, int ind);
 
         Bit(const Bit &b);
 
@@ -159,7 +159,7 @@ public:
     int count() const;
 
     //returns/sets value of bit at 'i' index, throw range error if index out of range
-    Bit operator[](int i) const;
+    Bit operator[](int i);
 
     //returns amount of bits, used in array
     int size() const;
