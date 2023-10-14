@@ -26,6 +26,10 @@ private:
         s.erase(s.find_last_not_of(" \n\r\t")+1);
     }
 
+    /**
+     * checks file format
+     * @return true if its in Life 1.06 format else false
+     */
     bool verifyFile() const {
         string line;
         getline(*this->file, line);
@@ -36,6 +40,9 @@ private:
         return true;
     }
 
+    /**
+     * sets pointers of name, rules, coords from file
+     */
     void setSeeks();
 
 public:

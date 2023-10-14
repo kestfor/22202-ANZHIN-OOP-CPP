@@ -28,8 +28,14 @@ private:
     list<int> surviveRule;
     FileReader *reader;
 
+    static void showWarning(const string &msg);
+
     static int getInd(int ind, int mod) ;
 
+    /**
+     * read game info from file, handle errors
+     * @param fileName
+     */
     void create(const string &fileName);
 
     int getAmountNeighbours(int i, int j) const;
@@ -63,8 +69,6 @@ public:
     }
 
     const BitArray<char> &operator[](int i);
-
-    static void showWarning(const string &msg);
 
     list<pair<int, int>> getLiveCoords() const;
 

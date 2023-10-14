@@ -162,10 +162,6 @@ void UserInterface::showWarning(const string &msg) {
     cout << msg << endl;
 }
 
-void UserInterface::stop() {
-    exit();
-}
-
 void UserInterface::live(int n) {
     system("cls");
     cout << game->getUniverseName() << endl;
