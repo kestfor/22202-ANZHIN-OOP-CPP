@@ -170,7 +170,6 @@ void UserInterface::live(int n) {
     system("cls");
     cout << game->getUniverseName() << endl;
     cout << game->getBirthSurviveRules() << endl;
-    vector<int> lastTen(10, 0);
     COORD coord;
     for (int i = 0; i < n; i++) {
         coord.Y = 2;
@@ -180,18 +179,8 @@ void UserInterface::live(int n) {
         cout << "current gen: " << game->getGenNumber() << endl;
         game->show();
         Sleep(50);
-        lastTen[i % 10] = game->getAmountAlive();
-        if (i % 10 == 0 && i != 0) {
-            bool test = false;
-            for (int j = 0; j < 9; j++) {
-                if (lastTen[j] != lastTen[j + 1]) {
-                    test = true;
-                    break;
-                }
-            }
-            if (!test) {
-                break;
-            }
+        if (game->getAmountAlive() == 0) {
+            break;
         }
     }
     waitForCommand();
