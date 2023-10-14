@@ -141,7 +141,7 @@ void Life::create(const string &fileName) {
     }
     list<pair<int, int>> coords = reader->readCoords();
     for (const auto &item : coords) {
-        field[getInd(item.second, height)].set(getInd(item.first, width), true);
+        field[getInd(item.first, height)].set(getInd(item.second, width), true);
         this->alive++;
     }
     reader->close();
