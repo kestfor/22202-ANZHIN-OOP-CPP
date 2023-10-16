@@ -51,6 +51,7 @@ UserInterface::UserInterface(int args, char *argv[]) {
     } else {
         this->mode = online;
     }
+    gameInit();
 }
 
 void UserInterface::gameInit() {
@@ -68,7 +69,7 @@ void UserInterface::gameInit() {
         this->dumpToFile(allowedArgs["-o"], false);
         this->exit();
     } else {
-        this->getTick(0);
+        this->getTick(0, false);
     }
 }
 
@@ -156,10 +157,6 @@ void UserInterface::help(bool waitForCommand) {
 
 void UserInterface::exit() {
     std::exit(EXIT_SUCCESS);
-}
-
-void UserInterface::showWarning(const string &msg) {
-    cout << msg << endl;
 }
 
 void UserInterface::live(int n) {
