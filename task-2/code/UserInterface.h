@@ -21,6 +21,11 @@ private:
     Life *game = nullptr;
 
     /**
+     * initialize game of life with given to constructor arguments
+     */
+    void gameInit();
+
+    /**
      * saves current field of game to the file
      * @param fileName
      * @param waitForCommand wait another command after this one if its true
@@ -72,11 +77,6 @@ public:
      * @param argv command line arguments
      */
     UserInterface(int args, char *argv[]);
-
-    /**
-     * initialize game of life with given to constructor arguments
-     */
-    void gameInit();
 
     /**
      * wait for command to read from cin, handle wrong commands, generate infinite loop until command 'exit' is called
