@@ -15,7 +15,7 @@ private:
 
     static const int STANDARD_HEIGHT = 20;
     static const int STANDARD_WIDTH = 80;
-    static const int AMOUNT_PRESETS = 4;
+    static const int AMOUNT_PRESETS = 5;
 
     vector<BitArray<char>> field;
     int width;
