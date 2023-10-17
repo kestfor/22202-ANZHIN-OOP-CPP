@@ -14,6 +14,7 @@ void UserInterface::handleWrongArguments() {
 }
 
 UserInterface::UserInterface(int args, char *argv[]) {
+    system("cls");
     for (int i = 1; i < args; i++) {
         string argName = string(argv[i]);
         if (argName.starts_with("--")) {
@@ -69,7 +70,7 @@ void UserInterface::gameInit() {
         this->dumpToFile(allowedArgs["-o"], false);
         this->exit();
     } else {
-        this->getTick(0, false);
+        this->getTick(0, true, false);
     }
 }
 
@@ -126,12 +127,16 @@ void UserInterface::dumpToFile(const string &fileName, bool waitForCommand) {
     }
 }
 
-void UserInterface::getTick(int n, bool waitForCommand) {
-    cout << "calculating...\n";
+void UserInterface::getTick(int n, bool waitForCommand, bool clearScreen) {
+    if (n >= 1000) {
+        cout << "calculating...\n";
+    }
     for (int i = 0; i < n; i++) {
         game->nextGeneration();
     }
-    system("cls");
+    if (clearScreen) {
+        system("cls");
+    }
     cout << game->getUniverseName() << endl;
     cout << game->getBirthSurviveRules() << endl;
     cout << "current gen: " << game->getGenNumber() << endl;
@@ -147,7 +152,7 @@ void UserInterface::help(bool waitForCommand) {
                   "2. tick <n=1> or in short t <n=1> for example: 'tick 2' command will show you your universe after 2 generations\n"
                   "3. exit - close the game, all progress will be lost\n"
                   "4. live <n=50> - run simulation in real time for n iterations\n"
-                  "4. help - get info about commands\n";
+                  "5. help - get info about commands\n";
     system("cls");
     cout << line;
     if (waitForCommand) {

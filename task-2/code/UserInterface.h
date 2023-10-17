@@ -37,7 +37,7 @@ private:
      * @param n
      * @param waitForCommand wait another command after this one if its true
      */
-    void getTick(int n = 1, bool waitForCommand = true);
+    void getTick(int n = 1, bool waitForCommand = true, bool clearScreen = true);
 
     /**
      * show info about available commands
