@@ -106,24 +106,24 @@ Life::Life(int width, int height) {
     } else {
         throw std::range_error("invalid field size");
     }
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dist(1,AMOUNT_PRESETS);
-    string presetName = std::filesystem::current_path().string() + "\\..\\presets\\" + to_string(dist(gen)) + ".life";
-    create(presetName);
+    create(getPresetName());
 }
 
 void Life::create(const string &fileName) {
     try {
         reader = new FileReader(fileName);
+    } catch (const invalid_argument &err) {
+        showWarning(err.what());
+        reader = new FileReader(getPresetName());
     } catch (const runtime_error &err) {
         showWarning(err.what());
+        reader = new FileReader(getPresetName());
     }
     try {
         name = reader->getUniverseName();
     } catch (const runtime_error &err) {
         showWarning(err.what());
-        name = "My universe";
+        name = STANDARD_UNIVERSE_NAME;
     }
     try {
         auto rules = reader->getBirthSurviveRules();
@@ -131,8 +131,8 @@ void Life::create(const string &fileName) {
         surviveRule = rules.second;
     } catch (const runtime_error &err) {
         showWarning(err.what());
-        birthRule = {3};
-        surviveRule = {2, 3};
+        birthRule = STANDARD_BIRTH_RULE;
+        surviveRule = STANDARD_SURVIVE_RULE;
     }
     this->field = vector<BitArray<char>>(height);
     for (int i = 0; i < height; i++) {
@@ -191,4 +191,12 @@ void Life::show() const {
         }
         cout << line << endl;
     }
+}
+
+string Life::getPresetName() {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dist(1,AMOUNT_PRESETS);
+    string presetName = std::filesystem::current_path().string() + "\\..\\presets\\" + to_string(dist(gen)) + ".life";
+    return presetName;
 }

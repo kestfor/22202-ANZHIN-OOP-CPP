@@ -67,10 +67,10 @@ void UserInterface::gameInit() {
         for (int i = 0; i < n; i++) {
             game->nextGeneration();
         }
-        this->dumpToFile(allowedArgs["-o"], false);
+        this->dumpToFile(allowedArgs["-o"]);
         this->exit();
     } else {
-        this->getTick(0, true, false);
+        this->getTick(0, false);
     }
 }
 
@@ -111,7 +111,7 @@ void UserInterface::waitForCommand() {
     }
 }
 
-void UserInterface::dumpToFile(const string &fileName, bool waitForCommand) {
+void UserInterface::dumpToFile(const string &fileName) {
     ofstream file(fileName);
     file << "#Life 1.06\n";
     file << "#N " + game->getUniverseName() + '\n';
@@ -122,12 +122,9 @@ void UserInterface::dumpToFile(const string &fileName, bool waitForCommand) {
     }
     file.close();
     cout << "universe was successfully saved\n";
-    if (waitForCommand) {
-        this->waitForCommand();
-    }
 }
 
-void UserInterface::getTick(int n, bool waitForCommand, bool clearScreen) {
+void UserInterface::getTick(int n, bool clearScreen) {
     if (n >= 1000) {
         cout << "calculating...\n";
     }
@@ -141,12 +138,9 @@ void UserInterface::getTick(int n, bool waitForCommand, bool clearScreen) {
     cout << game->getBirthSurviveRules() << endl;
     cout << "current gen: " << game->getGenNumber() << endl;
     game->show();
-    if (waitForCommand) {
-        this->waitForCommand();
-    }
 }
 
-void UserInterface::help(bool waitForCommand) {
+void UserInterface::help() {
     string line = "after start there are 5 commands that you can use:\n"
                   "1. dump <filename> - save current universe in file with name filename\n"
                   "2. tick <n=1> or in short t <n=1> for example: 'tick 2' command will show you your universe after 2 generations\n"
@@ -155,9 +149,6 @@ void UserInterface::help(bool waitForCommand) {
                   "5. help - get info about commands\n";
     system("cls");
     cout << line;
-    if (waitForCommand) {
-        this->waitForCommand();
-    }
 }
 
 void UserInterface::exit() {
@@ -181,6 +172,5 @@ void UserInterface::live(int n) {
             break;
         }
     }
-    waitForCommand();
 }
 

@@ -16,6 +16,9 @@ private:
     static const int STANDARD_HEIGHT = 20;
     static const int STANDARD_WIDTH = 80;
     static const int AMOUNT_PRESETS = 5;
+    const list<int> STANDARD_BIRTH_RULE = {3};
+    const list<int> STANDARD_SURVIVE_RULE = {2, 3};
+    const string STANDARD_UNIVERSE_NAME = "My Universe";
 
     vector<BitArray<char>> field;
     int width;
@@ -27,6 +30,8 @@ private:
     list<int> birthRule;
     list<int> surviveRule;
     FileReader *reader;
+
+    static string getPresetName();
 
     static void showWarning(const string &msg);
 

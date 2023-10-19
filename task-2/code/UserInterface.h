@@ -28,22 +28,19 @@ private:
     /**
      * saves current field of game to the file
      * @param fileName
-     * @param waitForCommand wait another command after this one if its true
      */
-    void dumpToFile(const string &fileName, bool waitForCommand = true);
+    void dumpToFile(const string &fileName);
 
     /**
      * show game field after n ticks with game info
      * @param n
-     * @param waitForCommand wait another command after this one if its true
      */
-    void getTick(int n = 1, bool waitForCommand = true, bool clearScreen = true);
+    void getTick(int n = 1, bool clearScreen = true);
 
     /**
      * show info about available commands
-     * @param waitForCommand wait another command after this one if its true
      */
-    void help(bool waitForCommand = true);
+    static void help();
 
     /**
      * run game in real-time for n ticks

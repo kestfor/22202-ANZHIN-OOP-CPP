@@ -3,6 +3,7 @@
 #include <list>
 #include <vector>
 #include <stdexcept>
+#include <filesystem>
 using namespace std;
 
 #ifndef CPP_FILEREADER_H
@@ -48,6 +49,9 @@ private:
 public:
 
     explicit FileReader(const string &fileName) {
+        if (!std::filesystem::exists(fileName)) {
+            throw std::invalid_argument("file does not exist");
+        }
         this->fileName = fileName;
         this->file = new ifstream(fileName, ios::binary);
         if (!verifyFile()) {
