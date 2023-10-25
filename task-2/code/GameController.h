@@ -10,6 +10,11 @@ private:
     CommandArgumentService *arguments;
     Life *game;
 
+protected:
+    ~GameController() {
+        delete arguments;
+        delete game;
+    }
 
 public:
 
