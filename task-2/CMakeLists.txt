@@ -10,8 +10,12 @@ add_executable(gameOfLife code/main.cpp code/BitArray.h code/BitArray.cpp
         code/Life.h
         code/FileReader.cpp
         code/FileReader.h
-        code/UserInterface.h
-        code/UserInterface.cpp
+        code/CommandArgumentService.cpp
+        code/CommandArgumentService.h
+        code/GameController.cpp
+        code/GameController.h
+        code/Command.cpp
+        code/Command.h
 )
 
 

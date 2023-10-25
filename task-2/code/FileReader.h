@@ -1,13 +1,19 @@
+#ifndef CPP_FILEREADER_H
+#define CPP_FILEREADER_H
+
 #include <iostream>
 #include <fstream>
 #include <list>
 #include <vector>
 #include <stdexcept>
 #include <filesystem>
-using namespace std;
 
-#ifndef CPP_FILEREADER_H
-#define CPP_FILEREADER_H
+using std::string;
+using std::ifstream;
+using std::streampos;
+using std::ios;
+using std::list;
+using std::pair;
 
 
 class FileReader {

@@ -83,6 +83,8 @@ public:
 
     void show() const;
 
+    void showInfo() const;
+
     ~Life() {
         if (reader->isOpen()) {
             reader->close();

@@ -19,14 +19,14 @@ pair<list<int>, list<int>> FileReader::getBirthSurviveRules() const {
     if (rulesPos != -1) {
         file->seekg(rulesPos);
     } else {
-        throw runtime_error("file hasn't transition rules");
+        throw std::runtime_error("file does not contain transition rules");
     }
     string line;
     getline(*this->file, line);
     rtrim(line);
     line = line.substr(3);
     if (!line.contains('B') || !line.contains("/S")) {
-        throw runtime_error("format error");
+        throw std::runtime_error("format error");
     }
     list<int> liveRules;
     list<int> dieRules;
@@ -45,7 +45,7 @@ string FileReader::getUniverseName() const {
     if (namePos != -1) {
         file->seekg(namePos);
     } else {
-        throw runtime_error("file hasn't universe name");
+        throw std::runtime_error("file does not contain universe name");
     }
     string line;
     getline(*file, line);

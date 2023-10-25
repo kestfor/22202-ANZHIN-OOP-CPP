@@ -1,16 +1,14 @@
-#include "UserInterface.h"
-using namespace std;
+#include "GameController.h"
 
-
-
-int main(int argc, char *argv[]) {
+int main(int args, char *argv[]) {
     try {
-        UserInterface userInterface(argc, argv);
-        while (true) {
-            userInterface.waitForCommand();
-        }
-    } catch (const runtime_error &err) {
         system("cls");
-        cout << err.what();
+        GameController controller(args, argv);
+        while (true) {
+            controller.waitForCommand();
+        }
+    } catch (const std::runtime_error &err) {
+        system("cls");
+        std::cout << err.what();
     }
 }

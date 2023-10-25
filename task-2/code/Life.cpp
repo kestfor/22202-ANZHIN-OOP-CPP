@@ -112,16 +112,16 @@ Life::Life(int width, int height) {
 void Life::create(const string &fileName) {
     try {
         reader = new FileReader(fileName);
-    } catch (const invalid_argument &err) {
+    } catch (const std::invalid_argument &err) {
         showWarning(err.what());
         reader = new FileReader(getPresetName());
-    } catch (const runtime_error &err) {
+    } catch (const std::runtime_error &err) {
         showWarning(err.what());
         reader = new FileReader(getPresetName());
     }
     try {
         name = reader->getUniverseName();
-    } catch (const runtime_error &err) {
+    } catch (const std::runtime_error &err) {
         showWarning(err.what());
         name = STANDARD_UNIVERSE_NAME;
     }
@@ -129,7 +129,7 @@ void Life::create(const string &fileName) {
         auto rules = reader->getBirthSurviveRules();
         birthRule = rules.first;
         surviveRule = rules.second;
-    } catch (const runtime_error &err) {
+    } catch (const std::runtime_error &err) {
         showWarning(err.what());
         birthRule = STANDARD_BIRTH_RULE;
         surviveRule = STANDARD_SURVIVE_RULE;
@@ -148,7 +148,7 @@ void Life::create(const string &fileName) {
 }
 
 void Life::showWarning(const string &msg) {
-    cout << msg << endl;
+    std::cout << msg << std::endl;
 }
 
 list<pair<int, int>> Life::getLiveCoords() const {
@@ -166,11 +166,11 @@ list<pair<int, int>> Life::getLiveCoords() const {
 string Life::getBirthSurviveRules() const {
     string res = "B";
     for (const auto &item : birthRule) {
-        res += to_string(item);
+        res += std::to_string(item);
     }
     res += "/S";
     for (const auto &item : surviveRule) {
-        res += to_string(item);
+        res += std::to_string(item);
     }
     return res;
 }
@@ -189,14 +189,20 @@ void Life::show() const {
                 line.push_back('.');
             }
         }
-        cout << line << endl;
+        std::cout << line << std::endl;
     }
 }
 
 string Life::getPresetName() {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dist(1,AMOUNT_PRESETS);
-    string presetName = std::filesystem::current_path().string() + "\\..\\presets\\" + to_string(dist(gen)) + ".life";
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(1,AMOUNT_PRESETS);
+    string presetName = std::filesystem::current_path().string() + "\\..\\presets\\" + std::to_string(dist(gen)) + ".life";
     return presetName;
+}
+
+void Life::showInfo() const {
+    std::cout << getUniverseName() << std::endl;
+    std::cout << getBirthSurviveRules() << std::endl;
+    std::cout << "current gen: " << getGenNumber() << std::endl;
 }
