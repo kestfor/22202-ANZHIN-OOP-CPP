@@ -10,12 +10,6 @@ private:
     CommandArgumentService *arguments;
     Life *game;
 
-protected:
-    ~GameController() {
-        delete arguments;
-        delete game;
-    }
-
 public:
 
     /**
@@ -27,6 +21,10 @@ public:
 
     void waitForCommand();
 
+    ~GameController() {
+        delete arguments;
+        delete game;
+    }
 };
 
 #endif //CPP_GAMECONTROLLER_H
