@@ -36,7 +36,7 @@ private:
      * show game field after n ticks with game info
      * @param n
      */
-    void getTickCmd(int n = 1, bool clearScreen = true);
+    void getTickCmd(int n = 1);
 
     /**
      * show info about available commands

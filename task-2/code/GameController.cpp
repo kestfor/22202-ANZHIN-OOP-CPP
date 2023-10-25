@@ -26,6 +26,9 @@ void GameController::waitForCommand() {
     string line;
     getline(std::cin, line);
     vector<string> cmdArguments = CommandArgumentService::parseCommand(line);
+    if (cmdArguments.empty()) {
+        return;
+    }
     Command cmd(this->game);
     cmd.execute(cmdArguments);
 }

@@ -14,16 +14,14 @@ void Command::dumpToFileCmd(const string &fileName) {
     std::cout << "universe was successfully saved\n";
 }
 
-void Command::getTickCmd(int n, bool clearScreen) {
+void Command::getTickCmd(int n) {
     if (n >= 1000) {
         std::cout << "calculating...\n";
     }
     for (int i = 0; i < n; i++) {
         game->nextGeneration();
     }
-    if (clearScreen) {
-        system("cls");
-    }
+    system("cls");
     std::cout << game->getUniverseName() << std::endl;
     std::cout << game->getBirthSurviveRules() << std::endl;
     std::cout << "current gen: " << game->getGenNumber() << std::endl;
