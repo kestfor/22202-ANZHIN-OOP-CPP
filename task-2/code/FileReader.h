@@ -56,7 +56,7 @@ public:
 
     explicit FileReader(const string &fileName) {
         if (!std::filesystem::exists(fileName)) {
-            throw std::invalid_argument("file does not exist");
+            throw std::runtime_error("file does not exist");
         }
         this->fileName = fileName;
         this->file = new ifstream(fileName, ios::binary);
