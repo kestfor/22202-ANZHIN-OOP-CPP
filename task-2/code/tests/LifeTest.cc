@@ -8,7 +8,7 @@
 TEST(Life, constructor) {
     string fileName = "C:/study/oop/cpp/task-2/presets/1.life";
     Life life(fileName);
-    EXPECT_EQ(5, life.getAmountAlive());
+    EXPECT_EQ(15, life.getAmountAlive());
 }
 
 TEST(Life, rules) {

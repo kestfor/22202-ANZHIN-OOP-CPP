@@ -1,25 +1,8 @@
 #include "GameController.h"
 
-GameController::GameController(int args, char *argv[]) {
-    arguments = new CommandArgumentService(args, argv);
-    if (arguments->contains("-f")) {
-        game = new Life((*arguments)["-f"]);
-    } else {
-        game = new Life();
-    }
-    if (arguments->contains("-i") && arguments->contains("-o")) {
-        Command cmd(this->game);
-        vector<string> cmd1 = CommandArgumentService::parseCommand("tick " + arguments->getArgument("-i"));
-        vector<string> cmd2 = CommandArgumentService::parseCommand("dump " + arguments->getArgument("-o"));
-        vector<string> cmd3 = CommandArgumentService::parseCommand("exit");
-        cmd.execute(cmd1);
-        cmd.execute(cmd2);
-        cmd.execute(cmd3);
-    } else {
-        game->showInfo();
-        game->show();
-    }
-
+GameController::GameController(LifeSettings &settings) {
+    factory = new CommandFactory();
+    game = new Life(settings);
 }
 
 void GameController::waitForCommand() {
@@ -29,6 +12,27 @@ void GameController::waitForCommand() {
     if (cmdArguments.empty()) {
         return;
     }
-    Command cmd(this->game);
-    cmd.execute(cmdArguments);
+    string name = cmdArguments[0];
+    cmdArguments = vector<string>(cmdArguments.begin() + 1, cmdArguments.end());
+    if (factory->contains(name)) {
+        factory->get(name)->execute(game, cmdArguments);
+    } else {
+        std::cout << "wrong command, type 'help' to learn more\n";
+    }
+    waitForCommand();
+}
+
+void GameController::runGame() {
+    game->showInfo();
+    game->showField();
+    waitForCommand();
+}
+
+void GameController::runGame(const string &amountTicks, const string &file) {
+    auto tickArgs = vector<string>{amountTicks};
+    auto dumpArgs = vector<string>{file};
+    auto exitArgs = vector<string>();
+    factory->get("tick")->execute(game, tickArgs);
+    factory->get("dump")->execute(game, dumpArgs);
+    factory->get("exit")->execute(game, exitArgs);
 }

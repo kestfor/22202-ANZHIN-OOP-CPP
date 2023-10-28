@@ -14,8 +14,7 @@ add_executable(gameOfLife code/main.cpp code/BitArray.h code/BitArray.cpp
         code/CommandArgumentService.h
         code/GameController.cpp
         code/GameController.h
-        code/Command.cpp
-        code/Command.h
+        code/commands/CommandFactory.h
 )
 
 
