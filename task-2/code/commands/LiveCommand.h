@@ -8,7 +8,12 @@ public:
     void execute(Life *life, std::vector<std::string> &arguments) override {
         int n = 50;
         if (!arguments.empty()) {
-            n = std::stoi(arguments[0]);
+            try {
+                n = std::stoi(arguments[0]);
+            } catch (const std::invalid_argument &err) {
+                std::cout << "amount should be a number, type 'help' to learn more\n";
+                return;
+            }
         }
         system("cls");
         std::cout << life->getUniverseName() << std::endl;

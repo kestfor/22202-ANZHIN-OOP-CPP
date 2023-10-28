@@ -79,7 +79,7 @@ int Life::getAmountAlive() const {
 }
 
 Life::Life(LifeSettings &settings) {
-    if (width < 0 || height < 0) {
+    if (settings.getWidth() < 0 || settings.getHeight() < 0) {
         throw std::range_error("invalid field size");
     }
     this->width = settings.getWidth();

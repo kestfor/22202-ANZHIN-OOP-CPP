@@ -6,11 +6,14 @@ class TickCommand : public Command {
 public:
 
     void execute(Life *life, std::vector<std::string> &arguments) override {
-        int n;
-        if (arguments.empty()) {
-            n = 1;
-        } else {
-            n = std::stoi(arguments[0]);
+        int n = 1;
+        if (!arguments.empty()) {
+            try {
+                n = std::stoi(arguments[0]);
+            } catch (const std::invalid_argument &err) {
+                std::cout << "amount should be a number, type 'help' to learn more\n";
+                return;
+            }
         }
         if (n >= 1000) {
             std::cout << "calculating...\n";

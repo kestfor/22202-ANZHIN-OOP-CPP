@@ -6,6 +6,10 @@
 class DumpCommand : public Command {
 public:
     void execute(Life *life, std::vector<std::string> &arguments) override {
+        if (arguments.empty()) {
+            std::cout << "you should type file name after this command\n";
+            return;
+        }
         std::ofstream file(arguments[0]);
         file << "#Life 1.06\n";
         file << "#N " + life->getUniverseName() + '\n';
