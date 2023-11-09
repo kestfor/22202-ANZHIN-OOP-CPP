@@ -2,6 +2,12 @@
 
 GameController::GameController(LifeSettings &settings) {
     factory = new CommandFactory();
+    factory->add<DumpCommand>("dump");
+    factory->add<TickCommand>("t");
+    factory->add<TickCommand>("tick");
+    factory->add<LiveCommand>("live");
+    factory->add<ExitCommand>("exit");
+    factory->add<HelpCommand>("help");
     game = new Life(settings);
 }
 
@@ -15,7 +21,10 @@ void GameController::waitForCommand() {
     string name = cmdArguments[0];
     cmdArguments = vector<string>(cmdArguments.begin() + 1, cmdArguments.end());
     if (factory->contains(name)) {
-        factory->get(name)->execute(game, cmdArguments);
+        //factory->create(name)->execute(game, cmdArguments);
+        auto cmd = factory->create(name);
+        cmd->execute(game, cmdArguments);
+        delete cmd;
     } else {
         std::cout << "wrong command, type 'help' to learn more\n";
     }
@@ -29,10 +38,10 @@ void GameController::runGame() {
 }
 
 void GameController::runGame(const string &amountTicks, const string &file) {
-    auto tickArgs = vector<string>{amountTicks};
-    auto dumpArgs = vector<string>{file};
-    auto exitArgs = vector<string>();
-    factory->get("tick")->execute(game, tickArgs);
-    factory->get("dump")->execute(game, dumpArgs);
-    factory->get("exit")->execute(game, exitArgs);
+    vector<vector<string>> cmdArgs = {vector<string>{amountTicks}, vector<string>{file}, vector<string>()};
+    vector<Command *> commands = {factory->create("tick"), factory->create("dump"), factory->create("exit")};
+    for (int i = 0; i < 3; i++) {
+        commands[i]->execute(game, cmdArgs[i]);
+        delete commands[i];
+    }
 }

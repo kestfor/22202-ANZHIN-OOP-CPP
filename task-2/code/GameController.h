@@ -5,6 +5,12 @@
 #include <string>
 #include "CommandArgumentService.h"
 #include "commands/CommandFactory.h"
+#include "commands/DumpCommand.h"
+#include "commands/TickCommand.h"
+#include "commands/HelpCommand.h"
+#include "commands/LiveCommand.h"
+#include "commands/ExitCommand.h"
+
 using std::string;
 
 class GameController {
@@ -16,11 +22,6 @@ private:
     void waitForCommand();
 
 public:
-
-    enum gameMode {
-        online,
-        offline
-    };
 
     /**
      * generate game with given commands, throw runtime error if there are argument errors
