@@ -49,6 +49,15 @@ target_link_libraries(
         GTest::gtest_main
 )
 
+add_executable(
+        CmdArgumentServiceTest
+        code/tests/CmdArgumentServiceTest.cc
+)
+
+target_link_libraries(
+        CmdArgumentServiceTest
+        GTest::gtest_main
+)
 
 include(GoogleTest)
-gtest_discover_tests(FileReaderTest LifeTest)
+gtest_discover_tests(FileReaderTest LifeTest CmdArgumentServiceTest)

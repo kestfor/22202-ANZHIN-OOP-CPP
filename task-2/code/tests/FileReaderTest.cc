@@ -9,18 +9,18 @@ TEST(FileReader, nameGetter) {
     std::ofstream file("test.txt");
     file << "#Life 1.06\n#N My universe";
     file.close();
-    auto Filereader = FileReader("test.txt");
-    EXPECT_EQ("My universe", Filereader.getUniverseName());
-    EXPECT_EQ("My universe", Filereader.getUniverseName());
+    auto fileReader = FileReader("test.txt");
+    EXPECT_EQ("My universe", fileReader.getUniverseName());
+    EXPECT_EQ("My universe", fileReader.getUniverseName());
 }
 
 TEST(FileReader, rulesGetter) {
     std::ofstream file("test.txt");
     file << "#Life 1.06\n#N My universe'\n#R B3/S23";
     file.close();
-    auto Filereader = FileReader("test.txt");
-    Filereader.getUniverseName();
-    pair<list<int>, list<int>> rules = Filereader.getBirthSurviveRules();
+    auto fileReader = FileReader("test.txt");
+    fileReader.getUniverseName();
+    pair<list<int>, list<int>> rules = fileReader.getBirthSurviveRules();
     list<int> res1 = {3};
     list<int> res2 = {2, 3};
     EXPECT_EQ(res1, rules.first);
