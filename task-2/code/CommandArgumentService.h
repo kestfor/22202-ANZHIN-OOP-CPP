@@ -16,9 +16,10 @@ private:
                                                       {"-i", ""}, {"--iterations=", ""},
                                                       {"-o", ""}, {"--output=", ""}};
 public:
-
+    //split line into vector
     static vector<string> parseCommand(const string &line);
 
+    //return map of non-empty short arguments
     static map<string, string> parseArguments(int args, char *argv[]);
 
 };

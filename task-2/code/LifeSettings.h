@@ -7,8 +7,8 @@ using std::pair;
 
 class LifeSettings {
 protected:
-    static const int STANDARD_HEIGHT = 20;
-    static const int STANDARD_WIDTH = 80;
+    const int STANDARD_HEIGHT = 20;
+    const int STANDARD_WIDTH = 80;
     const std::list<int> STANDARD_BIRTH_RULE = {3};
     const std::list<int> STANDARD_SURVIVE_RULE = {2, 3};
     const std::string STANDARD_UNIVERSE_NAME = "My Universe";

@@ -26,11 +26,6 @@ private:
 
     static int getInd(int ind, int mod) ;
 
-    /**
-     * read game info from file, handle errors
-     * @param fileName
-     */
-
     int getAmountNeighbours(int i, int j) const;
 
 public:
