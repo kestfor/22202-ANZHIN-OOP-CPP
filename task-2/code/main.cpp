@@ -15,10 +15,9 @@ string getPresetName() {
 
 int main(int args, char *argv[]) {
     system("cls");
-    CommandArgumentService argumentService;
     map<string, string> arguments;
     try {
-        arguments = argumentService.parseArguments(args, argv);
+        arguments = CommandArgumentService::parseArguments(args, argv);
     } catch (const std::runtime_error &err) {
         std::cout << err.what();
         return 0;

@@ -10,17 +10,22 @@ using std::string;
 
 class CommandArgumentService {
 private:
-    map<string, string> allowedArgs = {{"-f", ""}, {"--file=", ""},
-                                       {"-i", ""}, {"--iterations=", ""},
-                                       {"-o", ""}, {"--output=", ""}};
-
     static void handleWrongArguments();
 
 public:
 
+    enum allowedShortArgs {
+        f,
+        i,
+        o,
+        file,
+        iterations,
+        output,
+    };
+
     static vector<string> parseCommand(const string &line);
 
-    map<string, string> parseArguments(int args, char *argv[]);
+    static map<string, string> parseArguments(int args, char *argv[]);
 
 };
 
