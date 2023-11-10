@@ -12,16 +12,10 @@ class CommandArgumentService {
 private:
     static void handleWrongArguments();
 
+    inline static map<string , string> allowedArgs = {{"-f", ""}, {"--file=", ""},
+                                                      {"-i", ""}, {"--iterations=", ""},
+                                                      {"-o", ""}, {"--output=", ""}};
 public:
-
-    enum allowedShortArgs {
-        f,
-        i,
-        o,
-        file,
-        iterations,
-        output,
-    };
 
     static vector<string> parseCommand(const string &line);
 
