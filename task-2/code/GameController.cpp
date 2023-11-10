@@ -16,12 +16,11 @@ void GameController::waitForCommand() {
     getline(std::cin, line);
     vector<string> cmdArguments = CommandArgumentService::parseCommand(line);
     if (cmdArguments.empty()) {
-        return;
+        waitForCommand();
     }
     string name = cmdArguments[0];
     cmdArguments = vector<string>(cmdArguments.begin() + 1, cmdArguments.end());
     if (factory->contains(name)) {
-        //factory->create(name)->execute(game, cmdArguments);
         auto cmd = factory->create(name);
         cmd->execute(game, cmdArguments);
         delete cmd;

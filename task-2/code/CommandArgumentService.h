@@ -20,13 +20,7 @@ public:
 
     static vector<string> parseCommand(const string &line);
 
-    CommandArgumentService(int args, char *argv[]);
-
-    const string &getArgument(const string &name);
-
-    bool contains(const string &name);
-
-    const string &operator[](const string &name);
+    map<string, string> parseArguments(int args, char *argv[]);
 
 };
 

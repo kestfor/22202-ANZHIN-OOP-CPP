@@ -13,7 +13,7 @@ void CommandArgumentService::handleWrongArguments() {
     throw std::runtime_error(error);
 }
 
-CommandArgumentService::CommandArgumentService(int args, char **argv) {
+map<string, string> CommandArgumentService::parseArguments(int args, char **argv) {
     for (int i = 1; i < args; i++) {
         string argName = string(argv[i]);
         if (argName.starts_with("--")) {
@@ -46,27 +46,13 @@ CommandArgumentService::CommandArgumentService(int args, char **argv) {
             handleWrongArguments();
         }
     }
-}
-
-const string &CommandArgumentService::getArgument(const string &name) {
-    if (allowedArgs.contains(name)) {
-        return allowedArgs[name];
-    } else {
-        throw std::runtime_error("wrong argument");
+    map<string, string> res;
+    for (const auto &item: allowedArgs) {
+        if (item.first.size() == 2 && !item.second.empty()) {
+            res[item.first] = item.second;
+        }
     }
-}
-
-const string &CommandArgumentService::operator[](const string &name) {
-    return getArgument(name);
-}
-
-bool CommandArgumentService::contains(const string &name) {
-    const string arg = this->getArgument(name);
-    if (arg.empty()) {
-        return false;
-    } else {
-        return true;
-    }
+    return res;
 }
 
 vector<string> CommandArgumentService::parseCommand(const string &line) {

@@ -14,23 +14,42 @@ string getPresetName() {
 }
 
 int main(int args, char *argv[]) {
+    system("cls");
+    CommandArgumentService argumentService;
+    map<string, string> arguments;
     try {
-        system("cls");
-        CommandArgumentService argumentService(args, argv);
-        string fileName = argumentService.contains("-f") ? argumentService.getArgument("-f") : getPresetName();
-        FileReader reader(fileName);
-        LifeSettings settings;
-        settings.setName(reader.getUniverseName());
-        settings.setBirthSurviveRules(reader.getBirthSurviveRules());
-        settings.setStartCoords(reader.readCoords());
-        GameController controller(settings);
-        if (argumentService.contains("-i") && argumentService.contains("-o")) {
-            controller.runGame(argumentService.getArgument("-i"), argumentService.getArgument("-o"));
-        } else {
-            controller.runGame();
-        }
+        arguments = argumentService.parseArguments(args, argv);
     } catch (const std::runtime_error &err) {
-        system("cls");
         std::cout << err.what();
+        return 0;
+    }
+    string fileName;
+    if (arguments.contains("-f")) {
+        fileName = arguments["-f"];
+    } else {
+        fileName = getPresetName();
+    }
+    FileReader reader(fileName);
+    LifeSettings settings;
+    try {
+        settings.setName(reader.getUniverseName());
+    } catch (const std::runtime_error &err) {
+        std::cout << err.what() << std::endl;
+    }
+    try {
+        settings.setBirthSurviveRules(reader.getBirthSurviveRules());
+    } catch (const std::runtime_error &err) {
+        std::cout << err.what() << std::endl;
+    }
+    try {
+        settings.setStartCoords(reader.readCoords());
+    } catch (const std::runtime_error &err) {
+        std::cout << err.what() << std::endl;
+    }
+    GameController controller(settings);
+    if (arguments.contains("-i") && arguments.contains("-o")) {
+        controller.runGame(arguments["-i"], arguments["-o"]);
+    } else {
+        controller.runGame();
     }
 }
