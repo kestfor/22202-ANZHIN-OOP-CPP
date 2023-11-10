@@ -14,9 +14,6 @@ void CommandArgumentService::handleWrongArguments() {
 }
 
 map<string, string> CommandArgumentService::parseArguments(int args, char **argv) {
-    map<string , string> allowedArgs = {{"-f", ""}, {"--file=", ""},
-                                       {"-i", ""}, {"--iterations=", ""},
-                                       {"-o", ""}, {"--output=", ""}};
     for (int i = 1; i < args; i++) {
         string argName = string(argv[i]);
         if (argName.starts_with("--")) {
