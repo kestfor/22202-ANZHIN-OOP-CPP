@@ -2,15 +2,15 @@
 #define CPP_COMMANDFACTORY_H
 #include "Command.h"
 
-class abstractFooCreator {
+class abstractCommandCreator {
 public:
-    abstractFooCreator() = default;
-    virtual ~abstractFooCreator() = default;
+    abstractCommandCreator() = default;
+    virtual ~abstractCommandCreator() = default;
     virtual Command *create() const = 0;
 };
 
 template<class C>
-class CommandCreator : public abstractFooCreator {
+class CommandCreator : public abstractCommandCreator {
 public:
     virtual Command *create() const {
         return new C();
@@ -19,7 +19,7 @@ public:
 
 class CommandFactory {
 protected:
-    typedef std::map<std::string, abstractFooCreator*> FactoryMap;
+    typedef std::map<std::string, abstractCommandCreator*> FactoryMap;
     FactoryMap _factory;
 
 public:
@@ -44,7 +44,7 @@ public:
         return nullptr;
     }
 
-    bool contains(const std::string name) {
+    bool contains(const std::string &name) const {
         return _factory.contains(name);
     }
 
