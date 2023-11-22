@@ -29,3 +29,27 @@ SampleFlow* Replacer::convert(SampleFlow* previousFlow, const vector<SampleFlow 
     }
     return res;
 }
+
+vector<int> Replacer::convertArgs(const vector<string> &args) {
+    vector<int> res = {};
+    if (args.empty() || !args[0].starts_with("$")) {
+        throw ConverterException("first argument in replace converter must be reference with '$' symbol", ConverterException::INVALID_PARAM);
+    }
+    const string refIndString = args[0].substr(1);
+    try {
+        res.push_back(std::stoi(refIndString));
+    } catch (std::exception &error) {
+        throw ConverterException("invalid reference index", ConverterException::INVALID_PARAM);
+    }
+    for (int i = 1; i < 3; i++) {
+        if (args.size() > i) {
+            try {
+                res.push_back(std::stoi(args[i]));
+            } catch (std::exception &error) {
+                throw ConverterException("invalid start or end second in replace converter", ConverterException::INVALID_PARAM);
+            }
+        }
+    }
+    return res;
+}
+

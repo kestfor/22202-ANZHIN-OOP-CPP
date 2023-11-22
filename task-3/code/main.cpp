@@ -116,7 +116,7 @@ int main(const int argc, char **argv) {
         cerr << error.what() << '\n';
         return error.code();
     }
-    int resCode = process(readers, *configsReader, *writer);
+    int resCode = process(readers, *configsReader, *writer, 20);
     for (const auto &reader : readers) {
         delete reader;
     }

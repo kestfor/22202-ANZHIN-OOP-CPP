@@ -18,6 +18,8 @@ protected:
         }
     }
 
+    static vector<int> convertArgs(const vector<string> &args);
+
 public:
     SampleFlow *convert(SampleFlow *previousFlow, const vector<SampleFlow*> &samples, const pair<int, int> &timeFrame) const override;
 
@@ -35,6 +37,8 @@ public:
         this->endSec = args[1];
         checkArgs(startSec, endSec);
     }
+
+    explicit Muter(const std::vector<string> &args) : Muter(convertArgs(args)) {}
 };
 
 

@@ -1,6 +1,5 @@
 #ifndef INSTRUCTION_H
 #define INSTRUCTION_H
-#include <iostream>
 #include "converters/ConverterFactory.h"
 #include "Exceptions.h"
 using std::string;
@@ -9,7 +8,8 @@ class Instruction {
 protected:
     Converter *converter = nullptr;
     string converterName;
-    vector<int> args;
+    vector<int> argsInt;
+    vector<string> argsString;
     ConverterFactory *factory;
 
     static vector<string> split(const string &line);
@@ -27,8 +27,9 @@ public:
         this->factory = factory;
         if (factory->contains(converterName)) {
             const auto params = vector<string>(++splited.begin(), splited.end());
-            args = convertArgs(params);
-            converter = factory->create(converterName, args);
+            argsInt = convertArgs(params);
+            argsString = params;
+            converter = factory->create(converterName, argsString);
         } else {
             throw InstructionException("no avaible converters with name '" + converterName + "'", InstructionException::INVALID_COMMAND_NAME);
         }
@@ -40,8 +41,9 @@ public:
 
     Instruction(const Instruction &inst) {
         this->converterName = inst.converterName;
-        this->args = inst.args;
-        this->converter = inst.factory->create(converterName, this->args);
+        this->argsInt = inst.argsInt;
+        this->argsString = inst.argsString;
+        this->converter = inst.factory->create(converterName, this->argsInt);
         this->factory = inst.factory;
     }
 

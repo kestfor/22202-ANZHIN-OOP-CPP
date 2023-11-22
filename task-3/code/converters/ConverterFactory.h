@@ -9,13 +9,18 @@ public:
     abstractConverterCreator() = default;
     virtual ~abstractConverterCreator() = default;
     virtual Converter *create(vector<int> &args) const = 0;
+    virtual Converter *create(vector<string> &args) const = 0;
 };
 
 template<class C>
 class ConverterCreator : public abstractConverterCreator {
 public:
 
-    virtual Converter *create(std::vector<int> &args) const {
+    Converter *create(std::vector<int> &args) const override {
+        return new C(args);
+    }
+
+    Converter *create(std::vector<string> &args) const override {
         return new C(args);
     }
 
@@ -35,7 +40,7 @@ public:
         }
     }
 
-    vector<string> converterNames() {
+    vector<string> converterNames() const {
         vector<string> res = {};
         for (const auto &item : _factory) {
             res.push_back(item.first);
@@ -51,6 +56,14 @@ public:
     }
 
     Converter *create(const std::string &name, std::vector<int> &params) {
+        auto it = _factory.find(name);
+        if (it != _factory.end()) {
+            return it->second->create(params);
+        }
+        return nullptr;
+    }
+
+    Converter *create(const std::string &name, std::vector<string> &params) {
         auto it = _factory.find(name);
         if (it != _factory.end()) {
             return it->second->create(params);

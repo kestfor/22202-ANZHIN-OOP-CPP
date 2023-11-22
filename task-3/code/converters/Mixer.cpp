@@ -28,3 +28,27 @@ SampleFlow* Mixer::convert(SampleFlow *previousFlow,
     }
     return res;
 }
+
+vector<int> Mixer::convertArgs(const vector<string> &args) {
+    vector<int> res = {};
+    if (args.empty()) {
+        throw ConverterException("wrong amount of params in mix command", ConverterException::INVALID_AMOUNT_PARAMS);
+    }
+    const string& refIndString = args[0];
+    if (!refIndString.starts_with("$")) {
+        throw ConverterException("first argument in mix converter must be reference with '$' symbol", ConverterException::INVALID_PARAM);
+    }
+    try {
+        res.push_back(std::stoi(refIndString.substr(1)));
+    } catch (std::exception &error) {
+        throw ConverterException("invalid reference index", ConverterException::INVALID_PARAM);
+    }
+    if (args.size() > 1) {
+        try {
+            res.push_back(std::stoi(args[1]));
+        } catch (std::exception &error) {
+            throw ConverterException("invalid start second", ConverterException::INVALID_PARAM);
+        }
+    }
+    return res;
+}

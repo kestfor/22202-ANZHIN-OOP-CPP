@@ -18,6 +18,8 @@ protected:
         }
     }
 
+    static vector<int> convertArgs(const vector<string> &args);
+
 public:
     SampleFlow *convert(SampleFlow *previousFlow, const vector<SampleFlow*> &samples, const pair<int, int> &timeFrame) const override;
 
@@ -39,6 +41,8 @@ public:
         }
         checkArgs(refInd, startSec);
     }
+
+    explicit Mixer(const std::vector<string> &args) : Mixer(convertArgs(args)) {};
 
 };
 
