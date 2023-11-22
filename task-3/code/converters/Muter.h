@@ -29,7 +29,7 @@ public:
 
     explicit Muter(const std::vector<int> &args) {
         if (args.size() != 2) {
-            throw ConverterException("wrong amount of params", ConverterException::INVALID_AMOUNT_PARAMS);
+            throw ConverterException("wrong amount of params in mute command", ConverterException::INVALID_AMOUNT_PARAMS);
         }
         this->startSec = args[0];
         this->endSec = args[1];

@@ -10,9 +10,12 @@ string ConfigsReader::readline() const {
         } else {
             break;
         }
-        if (!line.starts_with("#")) {
+        if (!line.starts_with("#") && !line.empty()) {
             isComment = false;
         }
+    }
+    if (file->eof() && isComment) {
+        line = "";
     }
     return line;
 }

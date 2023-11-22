@@ -34,7 +34,7 @@ vector<int> Instruction::convertArgs(const vector<string>& args) {
         try {
             res.push_back(std::stoi(item));
         } catch (std::exception &error) {
-            throw InstructionException("invalid reference index", InstructionException::INVALID_PARAM);
+            throw InstructionException("invalid format of reference index", InstructionException::INVALID_PARAM);
         }
     }
     return res;

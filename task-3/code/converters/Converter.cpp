@@ -3,7 +3,7 @@
 pair<int, int> Converter::getIndexRange(const pair<int, int>&time, const pair<int, int>&frame, const int byteRate) {
     int startSecond = time.first;
     int endSecond = time.second;
-    const int timePeriod = endSecond - startSecond;
+    const int timePeriod = frame.second - frame.first;
     int frameStartSecond = frame.first;
     int frameEndSecond = frame.second;
     int startInd = 0;

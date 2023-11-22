@@ -11,24 +11,29 @@ using namespace std;
 
 int process(vector<WAVReader*> const &inputs, ConfigsReader const &configReader, WAVWriter &output, int timeStep=10) {
     int currTime = 0;
-    vector<Instruction> instructions;
-    while (configReader.hasNext()) {
-        try {
-            instructions.emplace_back(configReader.readInsruction());
-        } catch (InstructionException &error){
-            std::cerr << error.what() << '\n';
-            return error.code();
-        } catch (FactoryException &error) {
-            std::cerr << error.what() << '\n';
-            return error.code();
-        }
-    }
     const WAVReader *mainInput = inputs[0];
     output.setHeader(mainInput->getHeader());
     output.setFmt(mainInput->getFmt());
     output.writeHeader();
     output.writeFmt();
     output.writeDataInfo(mainInput->getData().numberOfSamples * sizeof(int16_t));
+    vector<Instruction> instructions;
+    while (configReader.hasNext()) {
+        try {
+            instructions.emplace_back(configReader.readInsruction());
+        } catch (InstructionException &error){
+            if (error.code() != InstructionException::EMPTY_COMMAND) {
+                std::cerr << error.what() << '\n';
+                return error.code();
+            }
+        } catch (FactoryException &error) {
+            std::cerr << error.what() << '\n';
+            return error.code();
+        } catch (ConverterException &error) {
+            std::cerr << error.what() << '\n';
+            return error.code();
+        }
+    }
     while (mainInput->hasNext()) {
         vector<SampleFlow*> flows;
         for (const auto &item : inputs) {
@@ -111,10 +116,11 @@ int main(const int argc, char **argv) {
         cerr << error.what() << '\n';
         return error.code();
     }
-    process(readers, *configsReader, *writer);
+    int resCode = process(readers, *configsReader, *writer);
     for (const auto &reader : readers) {
         delete reader;
     }
     delete writer;
     delete configsReader;
+    return resCode;
 }

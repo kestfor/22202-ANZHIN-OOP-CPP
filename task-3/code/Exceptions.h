@@ -10,7 +10,7 @@ protected:
 public:
 
     enum errorCodes {
-        INVALID_FILE_NAME,
+        INVALID_FILE_NAME = 1,
         BAD_FORMAT,
         FILE_ERROR,
         INVALID_NAME,

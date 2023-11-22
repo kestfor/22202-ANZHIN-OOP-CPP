@@ -33,14 +33,17 @@ public:
     }
 
     explicit Replacer(const std::vector<int> &args) {
+        if (args.empty()) {
+            throw ConverterException("wrong amount of params in replace command", ConverterException::INVALID_AMOUNT_PARAMS);
+        }
         this->refInd = args[0];
         if (args.size() > 1) {
-            this->startSec = args[0];
+            this->startSec = args[1];
         } else {
             this->startSec = 0;
         }
         if (args.size() > 2) {
-            this->endSec = args[0];
+            this->endSec = args[2];
         } else {
             this->endSec = -1;
         }

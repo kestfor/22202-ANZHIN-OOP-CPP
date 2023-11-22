@@ -29,7 +29,7 @@ public:
 
     explicit Mixer(const std::vector<int> &args) {
         if (args.size() < 1) {
-            throw ConverterException("wrong amount of params", ConverterException::INVALID_AMOUNT_PARAMS);
+            throw ConverterException("wrong amount of params in mix command", ConverterException::INVALID_AMOUNT_PARAMS);
         }
         this->refInd = args[0];
         if (args.size() > 1) {
