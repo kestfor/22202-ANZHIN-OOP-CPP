@@ -21,6 +21,11 @@ protected:
     static vector<int> convertArgs(const vector<string> &args);
 
 public:
+    static string description() {
+        return "mute command has 2 required arguments: start second, end second\n"
+                "example: mute <start second> <end second>";
+    }
+
     SampleFlow *convert(SampleFlow *previousFlow, const vector<SampleFlow*> &samples, const pair<int, int> &timeFrame) const override;
 
     Muter(const int startSec, const int endSec) {

@@ -21,6 +21,12 @@ protected:
     static vector<int> convertArgs(const vector<string> &args);
 
 public:
+    static string description() {
+        return "mix command has 1 required argument: reference and 1 optional argument: start second (default=0)'\n"
+                "reference consists of '$' symbol and number of source sample flow to mix with\n"
+                "example: mix <reference> <start second=0>";
+    }
+
     SampleFlow *convert(SampleFlow *previousFlow, const vector<SampleFlow*> &samples, const pair<int, int> &timeFrame) const override;
 
     explicit Mixer(const int refInd, const int startSec=0) {

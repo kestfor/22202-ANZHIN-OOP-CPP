@@ -24,19 +24,3 @@ vector<string> Instruction::split(const string &line) {
     }
     return result;
 }
-
-vector<int> Instruction::convertArgs(const vector<string>& args) {
-    vector<int> res = {};
-    for (auto item : args) {
-        if (item.starts_with("$")) {
-            item = item.substr(1);
-        }
-        try {
-            res.push_back(std::stoi(item));
-        } catch (std::exception &error) {
-            throw InstructionException("invalid format of reference index", InstructionException::INVALID_PARAM);
-        }
-    }
-    return res;
-}
-

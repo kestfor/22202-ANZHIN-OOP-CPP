@@ -9,7 +9,7 @@
 using namespace std;
 
 
-int process(vector<WAVReader*> const &inputs, ConfigsReader const &configReader, WAVWriter &output, int timeStep=10) {
+int process(vector<WAVReader*> &inputs, ConfigsReader &configReader, WAVWriter &output, int timeStep=10) {
     int currTime = 0;
     const WAVReader *mainInput = inputs[0];
     output.setHeader(mainInput->getHeader());
@@ -23,13 +23,12 @@ int process(vector<WAVReader*> const &inputs, ConfigsReader const &configReader,
             instructions.emplace_back(configReader.readInsruction());
         } catch (InstructionException &error){
             if (error.code() != InstructionException::EMPTY_COMMAND) {
+                std::cerr << "Error on line " << configReader.getLineNumber() << " in config file: ";
                 std::cerr << error.what() << '\n';
                 return error.code();
             }
-        } catch (FactoryException &error) {
-            std::cerr << error.what() << '\n';
-            return error.code();
-        } catch (ConverterException &error) {
+        } catch (BasicException &error) {
+            std::cerr << "Error on line " << configReader.getLineNumber() << " in config file: ";
             std::cerr << error.what() << '\n';
             return error.code();
         }
@@ -68,24 +67,31 @@ int main(const int argc, char **argv) {
     configsReader->addConverter<Mixer>("mix");
     configsReader->addConverter<Replacer>("replace");
     boost::program_options::options_description description("General options");
-    string availableConverters = "Available converter commands: ";
+    string availableConverters = "available converter commands: ";
     for (const auto &item : configsReader->getConverters()) {
         availableConverters += item + ", ";
     }
     availableConverters = availableConverters.substr(0, availableConverters.size() - 2);
     description.add_options()
-        ("help,h", static_cast<const char *> (availableConverters.c_str()))
+        ("help,h", boost::program_options::value<string>(), (availableConverters.c_str()))
         ("config,c", boost::program_options::value<string>()->required(), "configuration file")
         ("input,i", boost::program_options::value<vector<string>>()->required(), "input .wav files")
         ("output,o", boost::program_options::value<string>()->required(), "output .wav file");
     boost::program_options::variables_map vm;
     try {
-        boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(description).run(), vm);
+        store(boost::program_options::command_line_parser(argc, argv).options(description).run(), vm);
         if (vm.contains("help")) {
-            std::cout << description << '\n';
-            return 0;
+            auto converterDesctriptions = configsReader->getDescriptions();
+            const string command = vm["help"].as<string>();
+            if (converterDesctriptions.contains(command)) {
+                std::cout << converterDesctriptions[command] << '\n';
+                return 0;
+            } else {
+                std::cerr << "ERROR: " << "no available command with name '" + command + "'" << "\n" << description << '\n';
+                return -1;
+            }
         }
-        boost::program_options::notify(vm);
+        notify(vm);
     } catch (boost::program_options::error& e) {
         std::cerr << "ERROR: " << e.what() << "\n" << description << '\n';
         return -1;
@@ -116,7 +122,7 @@ int main(const int argc, char **argv) {
         cerr << error.what() << '\n';
         return error.code();
     }
-    int resCode = process(readers, *configsReader, *writer, 20);
+    int resCode = process(readers, *configsReader, *writer);
     for (const auto &reader : readers) {
         delete reader;
     }

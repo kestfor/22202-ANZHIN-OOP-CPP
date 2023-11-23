@@ -85,7 +85,11 @@ public:
      */
     void resetDataSeeker() const;
 
-
+    /**
+     * \brief read data in sample flow format
+     * \param seconds duration of sample flow to read
+     * \return
+     */
     SampleFlow *readNext(int seconds = 10);
 
     bool hasNext() const {

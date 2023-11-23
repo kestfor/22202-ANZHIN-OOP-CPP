@@ -25,6 +25,12 @@ protected:
     static vector<int> convertArgs(const vector<string> &args);
 
 public:
+    static string description() {
+        return "replace command has 1 required argument: reference and 2 optional positional arguments: start and end second\n"
+                "reference consists of '$' symbol and number of source sample flow to replace\n"
+                "example: replace <reference> <start second=0> <end second=audio duration>";
+    }
+
     SampleFlow* convert(SampleFlow* previousFlow, const vector<SampleFlow*>& samples, const pair<int, int>& timeFrame) const override;
 
     explicit Replacer(const int refInd, const int startSec=0, const int endSec=-1) {

@@ -19,6 +19,9 @@ public:
     void open(const string &fileName) {
         if (this->fileName.empty()) {
             this->fileName = fileName;
+            if (file == nullptr) {
+                file = new std::ofstream;
+            }
             file->open(fileName, std::ios::binary);
         } else {
             file->close();
@@ -46,14 +49,31 @@ public:
         this->fmt = fmt;
     }
 
+    /**
+     * \brief writes RIFF header to the file
+     */
     void writeHeader();
 
+    /**
+     * \brief wtites FMT chunk with ingo to the file
+     */
     void writeFmt();
 
+    /**
+     * \brief writes size of data that will be written to the file
+     * \param dataSize
+     */
     void writeDataInfo(int dataSize);
 
+    /**
+     * \brief writes data from sample flow
+     * \param sampleFlow
+     */
     void writeSampleFlow(const SampleFlow *sampleFlow);
 
+    /**
+     * \brief set seeker to the start of sample flow data
+     */
     void resetDataSeeker() const;
 
 };

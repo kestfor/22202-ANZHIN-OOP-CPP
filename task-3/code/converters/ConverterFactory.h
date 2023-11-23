@@ -31,6 +31,7 @@ class ConverterFactory {
 protected:
     typedef std::map<std::string, abstractConverterCreator*> FactoryMap;
     FactoryMap _factory;
+    std::map<string, string> descriptions;
 
 public:
 
@@ -52,7 +53,12 @@ public:
     void add(const std::string &name) {
         if (!_factory.contains(name)) {
             _factory[name] = new ConverterCreator<C>();
+            descriptions[name] = C::description();
         }
+    }
+
+    const std::map<string, string> &getDescriptions() {
+        return descriptions;
     }
 
     Converter *create(const std::string &name, std::vector<int> &params) {

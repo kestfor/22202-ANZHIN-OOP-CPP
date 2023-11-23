@@ -8,14 +8,10 @@ class Instruction {
 protected:
     Converter *converter = nullptr;
     string converterName;
-    vector<int> argsInt;
     vector<string> argsString;
     ConverterFactory *factory;
 
     static vector<string> split(const string &line);
-
-    static vector<int> convertArgs(const vector<string> &args);
-
 
 public:
     Instruction(const string &line, ConverterFactory *factory) {
@@ -27,7 +23,6 @@ public:
         this->factory = factory;
         if (factory->contains(converterName)) {
             const auto params = vector<string>(++splited.begin(), splited.end());
-            argsInt = convertArgs(params);
             argsString = params;
             converter = factory->create(converterName, argsString);
         } else {
@@ -41,9 +36,8 @@ public:
 
     Instruction(const Instruction &inst) {
         this->converterName = inst.converterName;
-        this->argsInt = inst.argsInt;
         this->argsString = inst.argsString;
-        this->converter = inst.factory->create(converterName, this->argsInt);
+        this->converter = inst.factory->create(converterName, this->argsString);
         this->factory = inst.factory;
     }
 

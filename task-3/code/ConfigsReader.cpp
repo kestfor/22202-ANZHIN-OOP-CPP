@@ -1,12 +1,13 @@
 #include "ConfigsReader.h"
 
 
-string ConfigsReader::readline() const {
+string ConfigsReader::readline() {
     string line;
     bool isComment = true;
     while (isComment) {
         if (!file->eof()) {
             std::getline(*file, line);
+            currLine += 1;
         } else {
             break;
         }
@@ -20,7 +21,7 @@ string ConfigsReader::readline() const {
     return line;
 }
 
-Instruction ConfigsReader::readInsruction() const {
+Instruction ConfigsReader::readInsruction() {
     const string line = readline();
     return {line, factory};
 }
