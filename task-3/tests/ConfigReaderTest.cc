@@ -12,7 +12,7 @@ TEST(ConfigReader, readline) {
                        "mix $2 10";
     file << text;
     file.close();
-    const ConfigsReader configReader("test.txt");
+    ConfigsReader configReader("test.txt");
     const string line1 = configReader.readline();
     const string line2 = configReader.readline();
     EXPECT_EQ(line1, "mute 10 20");

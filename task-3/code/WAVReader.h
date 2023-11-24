@@ -21,22 +21,30 @@ protected:
     string fileName;
     std::ifstream *file = nullptr;
     bool eof = false;
-    constexpr static int buffSize = 16384;
-    char buffer[buffSize];
 
 public:
 
     explicit WAVReader(const string &fileName) {
         if (std::filesystem::exists(fileName)) {
             file = new std::ifstream(fileName, std::ios::binary);
+            this->fileName = fileName;
             eof = false;
-            file->rdbuf()->pubsetbuf(buffer, buffSize);
         } else {
             throw WAVException("file " + fileName + " doesn't exist", WAVException::INVALID_FILE_NAME);
         }
     }
 
     explicit WAVReader() = default;
+
+    WAVReader(const WAVReader &w) : WAVBase(w) {
+        this->data = w.data;
+        this->eof = w.eof;
+        this->file = new std::ifstream(w.fileName, std::ios::binary);
+        this->fileName = w.fileName;
+        this->fmt = w.fmt;
+        this->header = w.header;
+        this->dataPlace = w.dataPlace;
+    }
 
     void open(const string &fileName) {
         if (!std::filesystem::exists(fileName)) {
@@ -45,7 +53,6 @@ public:
         if (this->fileName.empty()) {
             this->fileName = fileName;
             file->open(fileName, std::ios::binary);
-            file->rdbuf()->pubsetbuf(buffer, buffSize);
             eof = false;
         } else {
             file->close();

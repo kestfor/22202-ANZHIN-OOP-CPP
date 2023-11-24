@@ -30,6 +30,15 @@ public:
         }
     }
 
+    WAVWriter(const WAVWriter &w)  : WAVBase(w) {
+        this->fileName = w.fileName;
+        this->file = new std::ofstream(fileName, std::ios::binary);
+        this->data = w.data;
+        this->fmt = w.fmt;
+        this->header = w.header;
+        this->dataPlace = w.dataPlace;
+    }
+
     void close() const {
         if (file != nullptr) {
             file->close();

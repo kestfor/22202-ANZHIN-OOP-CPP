@@ -17,7 +17,8 @@ public:
         EMPTY_COMMAND,
         INVALID_COMMAND_NAME,
         INVALID_AMOUNT_PARAMS,
-        INVALID_PARAM
+        INVALID_PARAM,
+        INVALID_OPTION
     };
 
     BasicException(std::string  message, const int codeError) : message{std::move(message)}, codeError(codeError) {}
