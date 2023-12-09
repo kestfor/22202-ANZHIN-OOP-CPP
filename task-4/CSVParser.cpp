@@ -61,22 +61,6 @@ std::tuple<Args...> CSVParser<Args...>::split(const string&row) {
 }
 
 template<typename... Args>
-string CSVParser<Args...>::join(const vector<string>&data) const {
-    string res;
-    for (auto item: data) {
-        int spaceInd = item.find(' ');
-        while (spaceInd != -1) {
-            item[spaceInd] = sep;
-            spaceInd = item.find(' ');
-        }
-        res += item + ' ';
-    }
-    res.resize(res.size() - 1);
-    return res;
-}
-
-
-template<typename... Args>
 string CSVParser<Args...>::processString(const string&valueFrom) {
     string res = valueFrom;
     for (int i = 0; i < res.size(); i++) {
@@ -134,7 +118,7 @@ void CSVParser<Args...>::convertValue(const string&valueFrom, T&valueTo, pair<in
                 std::to_string(place.second) + " column", BasicException::UNSUPPORTED_TYPE);
         }
     }
-    catch (std::exception&err) {
+    catch (std::exception &err) {
         throw BasicException("got unexpected type '" + string(typeid(T).name()) + "' on " + std::to_string(place.first) + " row " +
                 std::to_string(place.second) + " column", BasicException::UNEXPECTED_TYPE);
     }
