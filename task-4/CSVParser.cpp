@@ -71,6 +71,7 @@ string CSVParser<Args...>::processString(const string&valueFrom) {
                     std::swap(res[j], res[j + 1]);
                 }
                 res[indForReplace] = charsForReplace[res[indForReplace]];
+                res.resize(res.size() - 1);
             }
         }
     }
